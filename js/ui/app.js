@@ -449,6 +449,7 @@ function initSettingsPage() {
   const cred = AlpacaClient.getCredentials();
   $('#setAlpacaKeyId').value = cred.keyId;
   $('#setAlpacaSecret').value = cred.secret;
+  $('#setAlpacaEnv').value = cred.paper ? 'paper' : 'live';
   $('#setFinnhubKey').value = Fundamentals.getKey();
   const nc = Notify.getConfig();
   $('#setTgToken').value = nc.telegramToken; $('#setTgChat').value = nc.telegramChatId;
@@ -456,7 +457,8 @@ function initSettingsPage() {
   $('#setCloudBase').value = CloudSync.getBaseUrl();
 
   $('#btnSaveAlpaca').addEventListener('click', () => {
-    AlpacaClient.saveCredentials($('#setAlpacaKeyId').value.trim(), $('#setAlpacaSecret').value.trim());
+    const isPaper = $('#setAlpacaEnv').value === 'paper';
+    AlpacaClient.saveCredentials($('#setAlpacaKeyId').value.trim(), $('#setAlpacaSecret').value.trim(), isPaper);
     alert('已保存');
   });
   $('#btnTestAlpaca').addEventListener('click', async () => {

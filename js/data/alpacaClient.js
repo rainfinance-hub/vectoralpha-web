@@ -49,6 +49,14 @@ export const AlpacaClient = {
   // 行情数据固定用 data.alpaca.markets（免费 IEX feed），与交易环境(paper/live)无关
   _dataBase() { return 'https://data.alpaca.markets'; },
 
+  // 交易类端点(账户信息/资产列表/日历)必须区分 Paper(模拟盘) / Live(实盘)，
+  // 两者的Key不能混用——这是之前版本的bug：写死了Live地址，导致Paper Key测试连接必定401。
+  // 免费获取行情数据只需要 Paper 账户的 Key 即可，无需入金，因此默认 paper=true。
+  _tradingBase() {
+    const c = this.getCredentials();
+    return c.paper ? 'https://paper-api.alpaca.markets' : 'https://api.alpaca.markets';
+  },
+
   /**
    * 带指数退避的 fetch 封装：429限流自动重试，403/404等直接抛错不重试。
    */
@@ -123,19 +131,19 @@ export const AlpacaClient = {
 
   /** 获取全市场可交易美股资产列表（用于"全市场"扫描池子，量很大，谨慎使用） */
   async listAssets({ status = 'active', assetClass = 'us_equity' } = {}) {
-    const url = `https://api.alpaca.markets/v2/assets?status=${status}&asset_class=${assetClass}`;
+    const url = `${this._tradingBase()}/v2/assets?status=${status}&asset_class=${assetClass}`;
     return this._fetchWithRetry(url);
   },
 
   /** 交易日历：用于判断某天是否为交易日、以及获取该日的开盘/收盘时间 */
   async getCalendar(start, end) {
-    const url = `https://api.alpaca.markets/v2/calendar?start=${start}&end=${end}`;
+    const url = `${this._tradingBase()}/v2/calendar?start=${start}&end=${end}`;
     return this._fetchWithRetry(url);
   },
 
   /** 连通性自检：用账户端点验证 Key 是否有效 */
   async testConnection() {
-    const url = 'https://api.alpaca.markets/v2/account';
+    const url = `${this._tradingBase()}/v2/account`;
     try {
       const data = await this._fetchWithRetry(url);
       return { ok: true, accountStatus: data.status, equity: data.equity };

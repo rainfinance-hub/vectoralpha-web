@@ -180,7 +180,15 @@
         <div class="fg"><label>API Key ID</label><input id="setAlpacaKeyId"></div>
         <div class="fg"><label>Secret Key</label><input id="setAlpacaSecret" type="password"></div>
       </div>
-      <button class="btn-s" id="btnSaveAlpaca">💾 保存</button>
+      <div class="fg">
+        <label>Key 类型</label>
+        <select id="setAlpacaEnv">
+          <option value="paper">Paper Trading 模拟盘 Key（免费注册即可拿到，无需入金，推荐）</option>
+          <option value="live">Live 实盘 Key</option>
+        </select>
+      </div>
+      <div class="hint">⚠️ Paper 和 Live 的 Key 不能混用——选错类型会导致「测试连接」返回401错误，请对照你在 Alpaca 后台生成 Key 时选的环境来选。</div>
+      <button class="btn-s mt8" id="btnSaveAlpaca">💾 保存</button>
       <button class="btn-s" id="btnTestAlpaca">🔌 测试连接</button>
       <span id="alpacaTestResult" class="hint"></span>
     </div>
