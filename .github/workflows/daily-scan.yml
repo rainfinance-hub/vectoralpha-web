@@ -1,0 +1,47 @@
+name: Daily Cloud Scan
+
+on:
+  schedule:
+    - cron: '30 20 * * 1-5'   # UTC 20:30 = 美东标准时间 16:30（夏令时请自行调整为 19:30 UTC）
+  workflow_dispatch:          # 支持手动触发，方便测试
+    inputs:
+      pool:
+        description: '要扫描的 Universe 池子 id（见 js/core/universeEngine.js 的 PoolRegistry）'
+        default: 'core'
+      limit:
+        description: '本次扫描的最大股票数量'
+        default: '600'
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 运行云端扫描
+        env:
+          ALPACA_KEY_ID: ${{ secrets.ALPACA_KEY_ID }}
+          ALPACA_SECRET: ${{ secrets.ALPACA_SECRET }}
+          FINNHUB_KEY: ${{ secrets.FINNHUB_KEY }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          FEISHU_WEBHOOK: ${{ secrets.FEISHU_WEBHOOK }}
+          NOTIFY_ON_SIGNAL: 'true'
+          SCAN_POOL: ${{ github.event.inputs.pool || 'core' }}
+          SCAN_LIMIT: ${{ github.event.inputs.limit || '600' }}
+        run: node cloud/scan.mjs
+
+      - name: 提交扫描结果
+        run: |
+          git config user.name "vectoralpha-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add cloud/results/
+          git diff --cached --quiet || git commit -m "chore: 云端扫描结果 $(date -u +%Y-%m-%d)"
+          git push
