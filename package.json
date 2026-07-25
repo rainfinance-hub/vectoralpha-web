@@ -1,0 +1,14 @@
+{
+  "name": "vectoralpha-web-screener",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "VectorAlpha 网络版美股选股器 —— Universe Engine + 三频共振/机构多因子分层信号 + 历史回溯",
+  "scripts": {
+    "cloud-scan": "node cloud/scan.mjs",
+    "serve": "node -e \"const h=require('http'),fs=require('fs'),path=require('path');const port=8080;h.createServer((req,res)=>{let p=path.join(process.cwd(),decodeURIComponent(req.url.split('?')[0]));if(p.endsWith('/'))p+='index.html';fs.readFile(p,(err,data)=>{if(err){res.writeHead(404);res.end('Not found: '+p);return;}const ext=path.extname(p);const types={'.html':'text/html','.js':'application/javascript','.css':'text/css','.json':'application/json'};res.writeHead(200,{'Content-Type':types[ext]||'application/octet-stream'});res.end(data);});}).listen(port,()=>console.log('http://localhost:'+port));\""
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

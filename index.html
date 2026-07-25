@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VectorAlpha · 网络版美股选股器</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E📈%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">📈 VectorAlpha <span class="ver">Web v1 · Universe Engine</span></div>
+  <nav class="tabs" id="mainTabs">
+    <button class="tab-btn active" data-page="dashboard">总览</button>
+    <button class="tab-btn" data-page="universe">股票池</button>
+    <button class="tab-btn" data-page="scan">扫描</button>
+    <button class="tab-btn" data-page="derived">派生池</button>
+    <button class="tab-btn" data-page="history">历史回溯</button>
+    <button class="tab-btn" data-page="risk">持仓风控</button>
+    <button class="tab-btn" data-page="watchlist">观察池</button>
+    <button class="tab-btn" data-page="cloud">云端结果</button>
+    <button class="tab-btn" data-page="settings">设置</button>
+    <button class="tab-btn" data-page="help">帮助</button>
+  </nav>
+</div>
+
+<main class="wrap">
+
+  <!-- ========== 总览 ========== -->
+  <section class="page active" id="page-dashboard">
+    <div class="card">
+      <div class="card-h">市场环境 Market Regime</div>
+      <div id="marketRegimeBox" class="hint">点击下方按钮获取最新大盘状态</div>
+      <button class="btn-s" id="btnLoadMarket">🔄 刷新市场环境</button>
+    </div>
+    <div class="card mt12">
+      <div class="card-h">快速开始</div>
+      <ol class="steps">
+        <li>先去「设置」页配置 Alpaca API Key（必需）与可选的 Finnhub Key。</li>
+        <li>去「股票池」页选择一个 Universe（建议从 Core 或 Industry 开始，扫描更快）。</li>
+        <li>去「扫描」页运行分析，得到三频共振 + 机构多因子 的分层综合评分。</li>
+        <li>去「派生池」页从扫描结果中一键生成 Momentum / Quality / High RS / New Highs / CANSLIM候选 / Minervini候选 / 机构买入代理 池。</li>
+        <li>去「历史回溯」页输入任意历史日期，还原当天的信号状态（核心功能）。</li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ========== 股票池 Universe ========== -->
+  <section class="page" id="page-universe">
+    <div class="card">
+      <div class="card-h">Universe Engine · 15类股票池</div>
+      <div class="hint">选择一个种子池加载到「当前扫描池」，或在下方管理观察池/持仓/自定义列表。派生池(Momentum/Quality/High RS/New Highs/机构买入代理/CANSLIM候选/Minervini候选)需要先完成一次扫描，见「派生池」页。</div>
+      <div id="poolRegistryList" class="pool-grid"></div>
+    </div>
+    <div class="card mt12">
+      <div class="card-h">自定义列表 Custom Universe</div>
+      <textarea id="customPoolInput" rows="3" placeholder="输入代码，逗号或空格分隔，如 AAPL, MSFT, NVDA"></textarea>
+      <button class="btn-s" id="btnUseCustom">➡ 载入到当前扫描池</button>
+    </div>
+    <div class="card mt12">
+      <div class="card-h">当前扫描池 <span id="currentPoolCount" class="badge">0</span></div>
+      <textarea id="currentPoolBox" rows="4" readonly></textarea>
+    </div>
+  </section>
+
+  <!-- ========== 扫描 Scan ========== -->
+  <section class="page" id="page-scan">
+    <div class="card">
+      <div class="card-h">扫描参数</div>
+      <div class="row">
+        <label><input type="checkbox" id="cfgSectorEnabled"> 启用行业轮动评分（会多拉取11个板块ETF，扫描变慢）</label>
+      </div>
+      <button class="btn-p" id="btnStartScan">▶ 开始扫描当前池</button>
+      <button class="btn-s" id="btnStopScan" disabled>■ 停止</button>
+      <div class="progress-wrap mt8"><div id="scanProgressBar" class="progress-bar"></div></div>
+      <div id="scanProgressText" class="hint"></div>
+    </div>
+    <div class="card mt12" id="logCard">
+      <div class="card-h">运行日志</div>
+      <div id="logBox" class="log-box"></div>
+    </div>
+    <div class="card mt12">
+      <div class="card-h">扫描结果 <span id="scanResultCount" class="badge">0</span></div>
+      <div class="tbl-wrap"><table id="tblScanResults"><thead></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- ========== 派生池 ========== -->
+  <section class="page" id="page-derived">
+    <div class="card">
+      <div class="card-h">从最近一次扫描结果生成派生池</div>
+      <div class="hint">需要先在「扫描」页完成一次扫描（样本越大，Momentum/High RS等排名越有意义）。</div>
+      <button class="btn-p" id="btnDeriveNow">⚙ 生成派生池</button>
+    </div>
+    <div id="derivedPoolsBox"></div>
+  </section>
+
+  <!-- ========== 历史回溯 ========== -->
+  <section class="page" id="page-history">
+    <div class="card">
+      <div class="card-h">🕐 单只股票历史回溯（核心功能）</div>
+      <div class="hint">输入历史日期，系统会把所有价格类指标截断到该日期重新计算，还原当天的三频共振与机构多因子状态。基本面/机构持仓类字段免费数据源只提供最新快照，回溯结果会明确标注「非时点数据」。</div>
+      <div class="row mt12">
+        <div class="fg" style="flex:0 0 160px"><label>股票代码</label><input id="histSym" placeholder="如 AAPL" style="text-transform:uppercase"></div>
+        <div class="fg" style="flex:0 0 180px"><label>历史日期</label><input type="date" id="histDate"></div>
+        <button class="btn-p" id="btnHistRun" style="flex:0 0 140px">▶ 回溯分析</button>
+      </div>
+      <div id="histSingleResult" class="mt16"></div>
+    </div>
+    <div class="card mt12">
+      <div class="card-h">📅 批量历史回溯</div>
+      <div class="hint">对「当前扫描池」里的全部股票，在同一个历史日期下重新计算，RS百分位在该批样本内有统计意义。</div>
+      <div class="row mt12">
+        <div class="fg" style="flex:0 0 180px"><label>历史日期</label><input type="date" id="histBatchDate"></div>
+        <button class="btn-p" id="btnHistBatchRun" style="flex:0 0 160px">▶ 批量回溯</button>
+      </div>
+      <div id="histBatchProgress" class="hint"></div>
+      <div class="tbl-wrap mt8"><table id="tblHistBatch"><thead></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- ========== 持仓风控 ========== -->
+  <section class="page" id="page-risk">
+    <div class="card">
+      <div class="card-h">仓位建议工作台</div>
+      <div class="grid g4">
+        <div class="fg"><label>账户总资产 ($)</label><input type="number" id="rmEquity" value="100000"></div>
+        <div class="fg"><label>单笔最大风险 (%)</label><input type="number" id="rmRiskPct" value="1.0" step="0.1"></div>
+        <div class="fg"><label>单一仓位上限 (%)</label><input type="number" id="rmMaxPos" value="20" step="1"></div>
+        <div class="fg"><label>止损模式</label>
+          <select id="rmStopMode">
+            <option value="combo">组合(取更保守)</option>
+            <option value="structural">结构止损(近3日低点)</option>
+            <option value="atr">ATR止损</option>
+            <option value="chandelier">Chandelier Exit</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-p mt8" id="btnBuildWorkbench">⚙ 按最近扫描结果生成仓位建议</button>
+      <div class="tbl-wrap mt8"><table id="tblWorkbench"><thead></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card mt12">
+      <div class="card-h">持仓列表 <button class="btn-s" id="btnAddPos">+ 添加持仓</button></div>
+      <div class="tbl-wrap"><table id="tblPortfolio"><thead></thead><tbody></tbody></table></div>
+      <button class="btn-p mt8" id="btnReviewHoldings">▶ 复核全部持仓（需先扫描包含这些代码的池子）</button>
+      <div id="holdingsReview" class="mt12"></div>
+    </div>
+  </section>
+
+  <!-- ========== 观察池 ========== -->
+  <section class="page" id="page-watchlist">
+    <div class="card">
+      <div class="card-h">观察池 Watchlist</div>
+      <div class="row">
+        <input id="wlInput" placeholder="输入代码，逗号/空格分隔" style="flex:1">
+        <input id="wlNote" placeholder="备注(可选)" style="flex:1">
+        <button class="btn-p" id="btnAddWl">+ 添加</button>
+      </div>
+      <div class="tbl-wrap mt8"><table id="tblWatchlist"><thead></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- ========== 云端结果 ========== -->
+  <section class="page" id="page-cloud">
+    <div class="card">
+      <div class="card-h">云端定时扫描结果</div>
+      <div class="hint">需要先按「帮助」页说明部署 GitHub Actions 定时扫描，并在「设置」页填写仓库 raw 内容地址。</div>
+      <button class="btn-p" id="btnLoadCloud">🔄 加载云端记录</button>
+      <div class="tbl-wrap mt8"><table id="tblCloud"><thead></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- ========== 设置 ========== -->
+  <section class="page" id="page-settings">
+    <div class="card">
+      <div class="card-h">数据源：Alpaca（必需）</div>
+      <div class="hint">Key 仅保存在你本机浏览器 localStorage，不会上传到任何服务器。<a href="https://alpaca.markets/" target="_blank">注册地址</a></div>
+      <div class="grid g2 mt12">
+        <div class="fg"><label>API Key ID</label><input id="setAlpacaKeyId"></div>
+        <div class="fg"><label>Secret Key</label><input id="setAlpacaSecret" type="password"></div>
+      </div>
+      <button class="btn-s" id="btnSaveAlpaca">💾 保存</button>
+      <button class="btn-s" id="btnTestAlpaca">🔌 测试连接</button>
+      <span id="alpacaTestResult" class="hint"></span>
+    </div>
+    <div class="card mt12">
+      <div class="card-h">基本面数据源：Finnhub（可选，用于质量评分/CANSLIM/财报日历）</div>
+      <div class="fg"><label>Finnhub API Key <a href="https://finnhub.io/register" target="_blank">(免费注册)</a></label><input id="setFinnhubKey"></div>
+      <button class="btn-s" id="btnSaveFinnhub">💾 保存</button>
+    </div>
+    <div class="card mt12">
+      <div class="card-h">Webhook 推送</div>
+      <div class="grid g2">
+        <div class="fg"><label>Telegram Bot Token</label><input id="setTgToken"></div>
+        <div class="fg"><label>Telegram Chat ID</label><input id="setTgChat"></div>
+        <div class="fg"><label>Discord Webhook URL</label><input id="setDiscordUrl"></div>
+        <div class="fg"><label>飞书 Webhook URL</label><input id="setFeishuUrl"></div>
+      </div>
+      <button class="btn-s" id="btnSaveNotify">💾 保存</button>
+      <button class="btn-s" id="btnTestNotify">📨 发送测试消息</button>
+    </div>
+    <div class="card mt12">
+      <div class="card-h">云端同步</div>
+      <div class="fg"><label>GitHub raw 内容根地址</label><input id="setCloudBase" placeholder="https://raw.githubusercontent.com/<user>/<repo>/main"></div>
+      <button class="btn-s" id="btnSaveCloud">💾 保存</button>
+    </div>
+  </section>
+
+  <!-- ========== 帮助 ========== -->
+  <section class="page" id="page-help">
+    <div class="card" id="helpContent"></div>
+  </section>
+
+</main>
+
+<div id="modalRoot"></div>
+
+<script type="module" src="js/ui/app.js"></script>
+</body>
+</html>
