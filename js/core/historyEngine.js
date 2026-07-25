@@ -71,18 +71,26 @@ export const HistoryEngine = {
       spyDailyClose = spy.bars.map(b => b.c);
     } catch (e) { /* ignore */ }
 
-    const results = [];
-    for (let i = 0; i < symbols.length; i++) {
-      const sym = symbols[i];
-      try {
-        const r = await analyzeSymbol(sym, { asOfDate, marketRegime, sectorRotation, sectorEnabled: opts.sectorEnabled || false, resonanceCfg: opts.resonanceCfg || {}, spyDailyClose });
-        results.push(r);
-      } catch (e) {
-        results.push({ sym, error: e.message, isError: true });
+    // 并发worker池扫描，原理和 scanEngine.js 一致（默认并发5，429会自动退避重试）
+    const concurrency = Math.max(1, Math.min(opts.concurrency || 5, symbols.length));
+    const results = new Array(symbols.length);
+    let nextIndex = 0, doneCount = 0;
+    const worker = async () => {
+      while (true) {
+        const i = nextIndex++;
+        if (i >= symbols.length) return;
+        const sym = symbols[i];
+        try {
+          results[i] = await analyzeSymbol(sym, { asOfDate, marketRegime, sectorRotation, sectorEnabled: opts.sectorEnabled || false, resonanceCfg: opts.resonanceCfg || {}, spyDailyClose });
+        } catch (e) {
+          results[i] = { sym, error: e.message, isError: true };
+        }
+        doneCount++;
+        if (onProgress) onProgress(doneCount, symbols.length, sym);
       }
-      if (onProgress) onProgress(i + 1, symbols.length, sym);
-      await new Promise(r => setTimeout(r, 200)); // 温和限流
-    }
+    };
+    await Promise.all(Array.from({ length: concurrency }, worker));
+
     const valid = results.filter(r => !r.isError);
     finalizeCrossSectional(valid, { marketRegime, sectorRotation, sectorEnabled: opts.sectorEnabled || false, qualityScorer: computeQualityScore });
 

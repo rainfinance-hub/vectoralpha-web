@@ -54,7 +54,8 @@ async function main() {
   const targets = symbols.slice(0, limit);
   console.log(`[cloud-scan] 股票池获取完成，共 ${symbols.length} 只（本次扫描前 ${targets.length} 只），meta=${JSON.stringify(meta)}`);
 
-  const result = await ScanEngine.scan(targets, {}, (done, total, sym) => {
+  const concurrency = Number(process.env.SCAN_CONCURRENCY || 5); // 并发worker数，GitHub Actions环境网络较好，可以适当调高
+  const result = await ScanEngine.scan(targets, { concurrency }, (done, total, sym) => {
     if (done % 25 === 0 || done === total) console.log(`[cloud-scan] 进度 ${done}/${total} (最近: ${sym})`);
   });
 
