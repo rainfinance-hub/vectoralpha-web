@@ -11,14 +11,22 @@
  * 得到 Momentum / Quality / High RS / New Highs / 机构买入代理 /
  * CANSLIM候选 / Minervini候选 这几个派生池。
  *
- * 并发说明（2026-07 性能优化）：
- * 早期版本是完全串行的 for 循环 + 每只股票固定sleep 200ms，500只股票实测要
- * 8~10分钟——太慢。现在改成"worker池"并发模式：同时开 N 个worker，各自从
- * 股票队列里领任务，互不等待。免费数据源(Alpaca/Finnhub)都有请求频率限制，
- * 并发太高会触发 429，所以默认并发数选得比较保守(5)，且 alpacaClient.js
- * 里的 429 会自动指数退避重试——即使偶尔撞到限流也不会整体失败，只是那一只
- * 股票会稍微慢一点。如果你的Key额度更高、想更快，可以调大 opts.concurrency；
- * 如果发现日志里大量"速率限制重试"，就调小一点。
+ * 并发说明（2026-07 性能优化，v1.3 → v1.4）：
+ * v1.3 版本是"worker池"并发模式（同时开5个worker各自领任务），理论上应该比
+ * 纯串行快不少，但用户实测517只股票仍然要11分37秒，几乎没有改善。
+ * 复盘后发现：瓶颈根本不是"并发数不够"，而是"请求总数太多"——每只股票
+ * 都要单独发1次日线请求+1次小时线请求，517只 = 1000+次独立HTTP请求，
+ * 很容易撞上 Alpaca 免费额度"每分钟请求数"的限流；一旦触发429，
+ * 退避等待(0.8s/1.6s/3.2s)会迅速累积，光靠加并发数救不回来
+ * （并发只是让更多请求同时排队等限流，不会减少总请求量）。
+ * v1.4 改成"批量预取"：扫描开始前，先用 DataSource.getDailyBatch/
+ * getHourlyBatch 把整批股票的K线用"多symbol打包"的方式一次性请求回来
+ * （Alpaca支持一次请求传入上百个symbol），517只股票的日线+小时线加起来
+ * 只需要几十次请求，而不是1000+次——这是数量级上的差别。批量预取完之后，
+ * 下面的 worker池循环里 analyzeSymbol→DataSource.getDaily/getHourly 基本
+ * 都会直接命中缓存，不再发起新请求，所以把默认并发数调高到8也是安全的。
+ * 如果批量预取因为网络问题失败，会自动静默降级为"逐只请求"（兜底不受影响，
+ * 只是速度退回v1.3水平），不会导致扫描失败。
  * ============================================================================
  */
 'use strict';
@@ -37,7 +45,16 @@ export const ScanEngine = {
       spyDailyClose = spy.bars.map(b => b.c);
     } catch (e) { /* ignore */ }
 
-    const concurrency = Math.max(1, Math.min(opts.concurrency || 5, symbols.length));
+    // 批量预取（见上方注释）：把整批股票的日线/小时线一次性打包请求回来塞进缓存，
+    // 是这次真正解决"扫描慢"问题的关键改动，不是单纯调并发数。
+    try {
+      await Promise.all([
+        DataSource.getDailyBatch(symbols, { yearsBack: 2 }),
+        DataSource.getHourlyBatch(symbols, { monthsBack: 6 }),
+      ]);
+    } catch (e) { /* 批量预取失败不阻断，后面逐只请求会自动兜底 */ }
+
+    const concurrency = Math.max(1, Math.min(opts.concurrency || 8, symbols.length));
     const results = new Array(symbols.length);
     let nextIndex = 0;
     let doneCount = 0;

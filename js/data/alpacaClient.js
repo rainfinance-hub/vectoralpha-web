@@ -122,6 +122,70 @@ export const AlpacaClient = {
     return this.getBars(symbol, '1Hour', startDate.toISOString().slice(0, 10), end);
   },
 
+  /**
+   * 批量获取多只股票的K线（一次请求打包最多 CHUNK_SIZE 只股票的数据）。
+   * ----------------------------------------------------------------------------
+   * 背景（2026-07 真实测速后追加）：v1.3 的"worker池并发"优化上线后，用户实测
+   * 517只股票仍然要 11分37秒，几乎没有改善。真正原因不是并发数不够，而是
+   * 请求总数太多——原来的写法是"每只股票单独发1次日线请求+1次小时线请求"，
+   * 517只股票 = 1000+次独立HTTP请求，很容易撞上 Alpaca 免费额度"每分钟请求数"
+   * 的限流；一旦触发429，_fetchWithRetry 的指数退避(0.8s/1.6s/3.2s)会让等待
+   * 时间迅速累积，5个并发worker也救不回来。
+   * 真正的解法是"减少请求总数"而不是"加大并发"：Alpaca 的 /v2/stocks/bars
+   * 端点支持一次传入多个逗号分隔的symbol，一次请求就能拿回一批股票的K线。
+   * 517只股票打包成约100只/批，日线+小时线加起来只需要几十次请求，
+   * 而不是1000+次——这是量级上的差异，不是简单调参能达到的效果。
+   * @param {string[]} symbols
+   * @param {'1Hour'|'1Day'|'1Week'} timeframe
+   * @param {string} start
+   * @param {string} end
+   * @returns {Promise<Map<string, Array>>} symbol -> bar数组（按时间升序）
+   */
+  async getBarsMulti(symbols, timeframe, start, end) {
+    if (!this.hasCredentials()) throw new Error('尚未配置 Alpaca API Key，请在"设置"页填写');
+    if (!symbols.length) return new Map();
+
+    const CHUNK_SIZE = 100; // 单次请求打包的股票数，兼顾URL长度限制和请求数量
+    const chunks = [];
+    for (let i = 0; i < symbols.length; i += CHUNK_SIZE) chunks.push(symbols.slice(i, i + CHUNK_SIZE));
+
+    const resultMap = new Map();
+    let ci = 0;
+    // chunk之间也用小并发(最多3个)跑，chunk内部的分页请求(next_page_token)必须串行，
+    // 因为下一页依赖上一页返回的token
+    const chunkWorker = async () => {
+      while (true) {
+        const idx = ci++;
+        if (idx >= chunks.length) return;
+        const chunkSymbols = chunks[idx];
+        let pageToken = null;
+        do {
+          const params = new URLSearchParams({
+            symbols: chunkSymbols.join(','), timeframe, start, end, limit: '10000', adjustment: 'split', feed: 'iex',
+          });
+          if (pageToken) params.set('page_token', pageToken);
+          const url = `${this._dataBase()}/v2/stocks/bars?${params.toString()}`;
+          const data = await this._fetchWithRetry(url);
+          const barsBySymbol = data.bars || {};
+          for (const sym of Object.keys(barsBySymbol)) {
+            const bars = (barsBySymbol[sym] || []).map(b => ({ t: b.t, o: b.o, h: b.h, l: b.l, c: b.c, v: b.v || 0 }));
+            if (!resultMap.has(sym)) resultMap.set(sym, []);
+            resultMap.get(sym).push(...bars);
+          }
+          pageToken = data.next_page_token || null;
+        } while (pageToken);
+      }
+    };
+    await Promise.all(Array.from({ length: Math.min(3, chunks.length) }, chunkWorker));
+
+    // 分页返回的顺序不一定100%按时间排列（多symbol混合分页），这里统一按时间升序排一次，
+    // 保证后续 Timeframe 模块（依赖"数组已按时间升序"这个约定）能正常工作
+    for (const [sym, bars] of resultMap) {
+      bars.sort((a, b) => new Date(a.t) - new Date(b.t));
+    }
+    return resultMap;
+  },
+
   /** 最新报价（用于Dashboard快速展示，不用于历史回溯计算） */
   async getLatestQuote(symbol) {
     const url = `${this._dataBase()}/v2/stocks/${symbol}/quotes/latest?feed=iex`;

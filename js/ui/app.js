@@ -276,12 +276,32 @@ function renderDerivedPools(pools) {
     { key: 'minervini', name: 'Minervini Candidates', metric: r => `RS ${r.institutional.rs.percentile}` },
   ];
   const box = $('#derivedPoolsBox');
+  // 之前这里只是把派生池结果列出来看，没有办法把某个派生池"送回"当前扫描池，
+  // 导致用户没法拿着"Momentum趋势池"这14只股票再去跑历史回溯/加观察池——
+  // 现在每个有数据的池子都加一个"➡ 载入到当前扫描池"按钮，点击后行为和
+  // 「股票池」页的种子池"载入"按钮完全一致：把这批代码写进 STATE.currentPoolSymbols，
+  // 之后就可以去「扫描」「历史回溯」「观察池」等页面直接使用这批股票。
   box.innerHTML = meta.map(m => {
     const list = pools[m.key] || [];
     return `<div class="card mt12"><div class="card-h">${m.name} <span class="badge">${list.length}</span></div>
-      ${list.length ? `<div class="hint">${list.slice(0, 30).map(r => `${r.sym}(${m.metric(r)})`).join(' · ')}</div>` : '<div class="hint">本次扫描样本中暂无符合条件的股票</div>'}
+      ${list.length ? `<div class="hint">${list.slice(0, 30).map(r => `${r.sym}(${m.metric(r)})`).join(' · ')}${list.length > 30 ? ` 等共${list.length}只` : ''}</div>
+      <button class="btn-s mt8" data-load-derived="${m.key}">➡ 载入到当前扫描池（共${list.length}只）</button>` : '<div class="hint">本次扫描样本中暂无符合条件的股票</div>'}
     </div>`;
   }).join('');
+  box.querySelectorAll('[data-load-derived]').forEach(btn => {
+    btn.addEventListener('click', () => loadDerivedPool(btn.dataset.loadDerived, pools));
+  });
+}
+
+function loadDerivedPool(key, pools) {
+  const list = pools[key] || [];
+  if (!list.length) { alert('该派生池当前没有符合条件的股票，无法载入'); return; }
+  const symbols = list.map(r => r.sym);
+  STATE.currentPoolSymbols = symbols;
+  $('#currentPoolBox').value = symbols.join(', ');
+  $('#currentPoolCount').textContent = symbols.length;
+  log(`✓ 已把派生池「${key}」的 ${symbols.length} 只股票载入到当前扫描池`, 'ok');
+  alert(`已载入 ${symbols.length} 只股票到"当前扫描池"，可以去「扫描」页或「历史回溯」页对这批股票做进一步分析。`);
 }
 
 // ---------------------------------------------------------------------------

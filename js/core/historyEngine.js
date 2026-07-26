@@ -71,8 +71,18 @@ export const HistoryEngine = {
       spyDailyClose = spy.bars.map(b => b.c);
     } catch (e) { /* ignore */ }
 
-    // 并发worker池扫描，原理和 scanEngine.js 一致（默认并发5，429会自动退避重试）
-    const concurrency = Math.max(1, Math.min(opts.concurrency || 5, symbols.length));
+    // 批量预取（2026-07 速度优化，原理和 scanEngine.js 完全一致，详见该文件顶部注释）：
+    // 用"多symbol打包请求"一次性把整批股票的K线取回塞进缓存，把请求总数从
+    // "股票数×2"降到几十次，这是解决批量回溯慢的关键，不是单纯调并发数。
+    try {
+      await Promise.all([
+        DataSource.getDailyBatch(symbols, { yearsBack: 2, asOfDate }),
+        DataSource.getHourlyBatch(symbols, { monthsBack: 6, asOfDate }),
+      ]);
+    } catch (e) { /* 批量预取失败不阻断，后面逐只请求会自动兜底 */ }
+
+    // 并发worker池扫描，原理和 scanEngine.js 一致（预取后基本命中缓存，默认并发调到8）
+    const concurrency = Math.max(1, Math.min(opts.concurrency || 8, symbols.length));
     const results = new Array(symbols.length);
     let nextIndex = 0, doneCount = 0;
     const worker = async () => {

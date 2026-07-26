@@ -73,5 +73,66 @@ export const DataSource = {
     return result;
   },
 
+  /**
+   * 批量预取日线（2026-07 速度优化核心）：在扫描/回溯开始前，把整批股票的日线
+   * 一次性用"多symbol打包请求"(AlpacaClient.getBarsMulti)取回并塞进内存缓存，
+   * 之后 analyzeSymbol 内部照常调用 getDaily(单只)，只是会直接命中缓存，
+   * 基本不再发起新请求。缓存key和 getDaily 保持完全一致，这样才能命中。
+   * 某只股票如果没在批量结果里出现（比如新股/退市/代码错误），这里不会写入
+   * 缓存，交给后面 getDaily 的"单只请求→Yahoo兜底"逻辑正常处理，不影响正确性。
+   */
+  async getDailyBatch(symbols, { yearsBack = 2, asOfDate = null } = {}) {
+    if (!AlpacaClient.hasCredentials() || !symbols.length) return;
+    const need = symbols.filter(s => !_cache.has(cacheKey('D', s, yearsBack, asOfDate)));
+    if (!need.length) return;
+
+    const end = asOfDate || new Date().toISOString().slice(0, 10);
+    const startDate = new Date(end);
+    startDate.setFullYear(startDate.getFullYear() - yearsBack);
+    const start = startDate.toISOString().slice(0, 10);
+
+    let barsMap;
+    try {
+      barsMap = await AlpacaClient.getBarsMulti(need, '1Day', start, end);
+    } catch (e) {
+      console.warn(`[DataSource] 批量日线请求失败，回退为逐只请求: ${e.message}`);
+      return;
+    }
+    for (const sym of need) {
+      const bars = barsMap.get(sym);
+      if (!bars || !bars.length) continue; // 拿不到就留给 getDaily 逐只兜底
+      const trunc = Timeframe.truncateByDate(bars, asOfDate);
+      _cache.set(cacheKey('D', sym, yearsBack, asOfDate), {
+        bars: trunc.bars, effectiveDate: trunc.effectiveDate, requestedDate: asOfDate, isNonTradingDay: trunc.isNonTradingDay, source: 'alpaca',
+      });
+    }
+  },
+
+  /** 批量预取小时线，原理同 getDailyBatch */
+  async getHourlyBatch(symbols, { monthsBack = 6, asOfDate = null } = {}) {
+    if (!AlpacaClient.hasCredentials() || !symbols.length) return;
+    const need = symbols.filter(s => !_cache.has(cacheKey('H', s, monthsBack, asOfDate)));
+    if (!need.length) return;
+
+    const end = asOfDate || new Date().toISOString().slice(0, 10);
+    const startDate = new Date(end);
+    startDate.setMonth(startDate.getMonth() - monthsBack);
+    const start = startDate.toISOString().slice(0, 10);
+
+    let barsMap;
+    try {
+      barsMap = await AlpacaClient.getBarsMulti(need, '1Hour', start, end);
+    } catch (e) {
+      console.warn(`[DataSource] 批量小时线请求失败，回退为逐只请求: ${e.message}`);
+      return;
+    }
+    for (const sym of need) {
+      const bars = barsMap.get(sym);
+      if (!bars || !bars.length) continue; // 拿不到就留给 getHourly 逐只兜底（会尝试Yahoo）
+      const truncBars = asOfDate ? Timeframe.truncateHourlyByDate(bars, asOfDate) : bars;
+      _cache.set(cacheKey('H', sym, monthsBack, asOfDate), { bars: truncBars, source: 'alpaca', degraded: false });
+    }
+  },
+
   clearCache() { _cache.clear(); },
 };
