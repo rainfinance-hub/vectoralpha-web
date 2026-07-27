@@ -1,0 +1,30 @@
+# ============================================================================
+# 单元测试 (Unit Tests) —— 2026-07 新增
+# ----------------------------------------------------------------------------
+# 背景：你没有本地开发环境/Node.js，之前所有改动的语法/逻辑验证都是在
+# 开发过程中临时跑的，代码进了仓库之后就没人再检查了。这个workflow让
+# tests/run.mjs 在你每次通过网页editor提交代码后，自动在GitHub的服务器上
+# 跑一遍——不需要你装任何东西，跑完的结果(通过/失败)会显示在：
+#   仓库页面 -> Actions 标签页 -> 最新一次 "Unit Tests" 运行记录
+# 以及每个commit旁边的绿勾(√全部通过)或红叉(有测试失败，点进去能看到具体是哪条)。
+#
+# 用法：什么都不用做，push代码(或用网页editor直接commit)就会自动触发。
+# 也可以在 Actions 标签页手动点 "Run workflow" 立即跑一次。
+# ============================================================================
+name: Unit Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 运行核心指标与评分单元测试
+        run: node tests/run.mjs
