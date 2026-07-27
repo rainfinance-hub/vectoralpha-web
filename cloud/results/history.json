@@ -1,0 +1,33 @@
+[
+  {
+    "date": "2026-07-27",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 517,
+    "triggered": 21,
+    "tickers": [
+      "ARES",
+      "DLR",
+      "EA",
+      "HPE",
+      "HWM",
+      "IR",
+      "IVZ",
+      "IRM",
+      "JCI",
+      "MPC",
+      "NDSN",
+      "NUE",
+      "PH",
+      "PCG",
+      "PSX",
+      "PLD",
+      "TDY",
+      "URI",
+      "VLO",
+      "VTR",
+      "WAB"
+    ]
+  }
+]
