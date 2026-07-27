@@ -87,3 +87,17 @@ tr:hover td{background:var(--bg3)}
 .help-content h3{font-size:14px;color:var(--cyan)}
 .help-content code{background:var(--bg3);padding:1px 5px;border-radius:4px}
 .help-content pre{background:#000;padding:10px;border-radius:6px;overflow-x:auto}
+
+/* ===== V2 新增：Universe Builder 条件行 / 统计分布条形图 —— 沿用已有的暗色卡片风格，不引入新配色 ===== */
+.cond-row{display:flex;gap:8px;align-items:flex-end;flex-wrap:wrap;background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px;margin-bottom:6px}
+.cond-row .fg{margin-bottom:0;flex:1 1 120px}
+.cond-row .btn-s{padding:6px 10px;flex:0 0 auto}
+.dist-bar-row{display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12px}
+.dist-bar-label{flex:0 0 110px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dist-bar-track{flex:1;background:var(--bg3);border-radius:4px;height:14px;overflow:hidden}
+.dist-bar-fill{background:var(--cyan);height:100%}
+.dist-bar-count{flex:0 0 46px;text-align:right;color:var(--text3)}
+.stat-tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:8px;margin:10px 0}
+.stat-tile{background:var(--bg3);border:1px solid var(--border);border-radius:6px;padding:8px 10px}
+.stat-tile .stv{font-size:18px;font-weight:700;color:var(--cyan)}
+.stat-tile .stl{font-size:11px;color:var(--text3);margin-top:2px}

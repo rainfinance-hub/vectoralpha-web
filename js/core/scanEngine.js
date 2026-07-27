@@ -35,6 +35,8 @@ import { MarketContext } from '../signals/marketContext.js';
 import { computeQualityScore } from '../signals/qualityScore.js';
 import { DataSource } from '../data/dataSource.js';
 import { RSBenchmark } from './rsBenchmark.js';
+import { MasterUniverseSync } from './masterUniverseSync.js';
+import { SignalTracking } from './signalTracking.js';
 
 export const ScanEngine = {
   async scan(symbols, opts = {}, onProgress = null) {
@@ -86,6 +88,17 @@ export const ScanEngine = {
 
     const valid = results.filter(r => !r.isError);
     finalizeCrossSectional(valid, { marketRegime, sectorRotation, sectorEnabled: opts.sectorEnabled || false, qualityScorer: computeQualityScore, rsBenchmark });
+
+    // V2新增：把这批结果反哺进 master_universe(第二阶段) + 存入 signal_history(第九阶段)。
+    // 两者都依赖浏览器内嵌SQLite(db.js)，如果sql.js的CDN加载失败/IndexedDB不可用，
+    // 这里静默捕获错误、不影响扫描主流程返回结果——这类"锦上添花"的数据积累功能
+    // 不应该因为环境问题导致核心扫描功能跟着挂掉。
+    try {
+      await MasterUniverseSync.enrichFromAnalysis(valid);
+      await SignalTracking.recordScan(valid, new Date().toISOString().slice(0, 10), false);
+    } catch (e) {
+      console.warn(`[ScanEngine] Master Universe/信号跟踪写入失败(不影响本次扫描结果): ${e.message}`);
+    }
 
     return {
       isHistorical: false, marketRegime, sectorRotation,

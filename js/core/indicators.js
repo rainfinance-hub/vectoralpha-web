@@ -248,4 +248,57 @@ export const Indicators = {
     for (; idx < sortedAsc.length; idx++) if (sortedAsc[idx] >= value) break;
     return sortedAsc.length > 1 ? Math.round((idx / (sortedAsc.length - 1)) * 100) : 50;
   },
+
+  // ---------------- 日收益率序列 ----------------
+  // close -> 简单日收益率数组(长度比close少1)，供 beta/correlation 使用
+  dailyReturns(close) {
+    const out = [];
+    for (let i = 1; i < close.length; i++) {
+      out.push(close[i - 1] === 0 ? 0 : (close[i] - close[i - 1]) / close[i - 1]);
+    }
+    return out;
+  },
+
+  // ---------------- Beta（相对基准指数，通常是SPY）—— V2 第一阶段(Universe Builder)新增 ----------------
+  // beta = Cov(symbolReturns, benchmarkReturns) / Var(benchmarkReturns)
+  // 两个close序列会先各自转成收益率，再按"两者共同覆盖的最近N个交易日"对齐计算，
+  // 数据不足(少于30个交易日的重叠收益率)时返回 null，不勉强算一个不可靠的值。
+  computeBeta(symbolClose, benchmarkClose) {
+    if (!symbolClose || !benchmarkClose) return null;
+    const symRet = this.dailyReturns(symbolClose);
+    const benchRet = this.dailyReturns(benchmarkClose);
+    const n = Math.min(symRet.length, benchRet.length);
+    if (n < 30) return null;
+    const s = symRet.slice(-n), b = benchRet.slice(-n);
+    const meanS = s.reduce((a, v) => a + v, 0) / n;
+    const meanB = b.reduce((a, v) => a + v, 0) / n;
+    let cov = 0, varB = 0;
+    for (let i = 0; i < n; i++) {
+      cov += (s[i] - meanS) * (b[i] - meanB);
+      varB += (b[i] - meanB) ** 2;
+    }
+    if (varB === 0) return null;
+    return Math.round((cov / varB) * 100) / 100;
+  },
+
+  // ---------------- 皮尔逊相关系数 —— V2 第七阶段(Portfolio Risk Correlation)新增 ----------------
+  // 两个价格序列各自转收益率后计算相关系数(-1~1)，数据不足返回 null。
+  computeCorrelation(closeA, closeB) {
+    if (!closeA || !closeB) return null;
+    const retA = this.dailyReturns(closeA);
+    const retB = this.dailyReturns(closeB);
+    const n = Math.min(retA.length, retB.length);
+    if (n < 30) return null;
+    const a = retA.slice(-n), b = retB.slice(-n);
+    const meanA = a.reduce((x, v) => x + v, 0) / n;
+    const meanB = b.reduce((x, v) => x + v, 0) / n;
+    let cov = 0, varA = 0, varB = 0;
+    for (let i = 0; i < n; i++) {
+      cov += (a[i] - meanA) * (b[i] - meanB);
+      varA += (a[i] - meanA) ** 2;
+      varB += (b[i] - meanB) ** 2;
+    }
+    if (varA === 0 || varB === 0) return null;
+    return Math.round((cov / Math.sqrt(varA * varB)) * 1000) / 1000;
+  },
 };

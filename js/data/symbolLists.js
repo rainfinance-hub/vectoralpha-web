@@ -160,6 +160,44 @@ export const GROWTH_SEEDS = [...new Set([
   ...GROWTH_TRAVEL_RETAIL_EXTRA, ...GROWTH_SOFTWARE_EXTRA,
 ])];
 
+// ----------------------------------------------------------------------------
+// 主题分类 (Growth Themes) —— V2 第七阶段(Portfolio Risk / Theme Exposure)新增
+// 复用上面已经手工整理好的成长赛道分组，给每个分组一个主题名字，供
+// riskAnalytics.js 计算"主题集中度(Theme Exposure)"用——比如同时持有
+// NVDA+AMD+SMCI 单看都是不同代码，但都属于"AI/半导体"主题，组合实际
+// 集中度比看起来更高。和 sectorMap.js 的板块映射是同一种"如实标注局限性"
+// 的做法：同一只股票可能出现在多个主题分组里，取第一次出现的分类。
+// ----------------------------------------------------------------------------
+export const GROWTH_THEMES = {
+  'AI/半导体 AI & Semiconductors': GROWTH_AI_SEMIS,
+  '软件/SaaS Software & SaaS': GROWTH_SOFTWARE,
+  '网络安全 Cybersecurity': GROWTH_CYBER,
+  '金融科技 Fintech': GROWTH_FINTECH,
+  '互联网/电商 Internet & E-commerce': GROWTH_INTERNET,
+  '媒体/社交 Media & Social': GROWTH_MEDIA_SOCIAL,
+  '生物科技 Biotech': [...GROWTH_BIOTECH, ...GROWTH_BIOTECH_EXTRA],
+  '消费品牌 Consumer Brands': GROWTH_CONSUMER_BRANDS,
+  '新能源车/清洁能源 EV & Clean Energy': GROWTH_EV_CLEAN,
+  '核能/电力 Nuclear & Power': [...GROWTH_NUCLEAR_POWER, ...GROWTH_URANIUM_EXTRA],
+  '太空/国防/量子计算 Space/Defense/Quantum': [...GROWTH_SPACE_DEFENSE_QUANTUM, ...GROWTH_SPACE_EXTRA],
+  '工业 Industrial': GROWTH_INDUSTRIAL_MISC,
+  '医疗健康 Healthcare Misc': GROWTH_HEALTHCARE_MISC,
+};
+
+function buildSymbolThemeMap() {
+  const map = {};
+  for (const [theme, symbols] of Object.entries(GROWTH_THEMES)) {
+    for (const sym of symbols) if (!(sym in map)) map[sym] = theme; // 多主题重复出现时取第一次
+  }
+  return map;
+}
+const SYMBOL_TO_THEME = buildSymbolThemeMap();
+
+/** 查询某只股票所属的主题分类，查不到返回 null（不在成长赛道分组里的股票，比如传统价值股，本来就没有主题标签） */
+export function getThemeForSymbol(sym) {
+  return SYMBOL_TO_THEME[sym] || null;
+}
+
 /**
  * 获取 S&P 500 成分股：优先从公开 GitHub 数据集实时拉取，失败则用静态兜底列表。
  * 返回 { symbols, source: 'live'|'static-fallback' }

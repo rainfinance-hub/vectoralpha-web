@@ -22,6 +22,7 @@ import { MarketContext } from '../signals/marketContext.js';
 import { computeQualityScore } from '../signals/qualityScore.js';
 import { DataSource } from '../data/dataSource.js';
 import { RSBenchmark } from './rsBenchmark.js';
+import { SignalTracking } from './signalTracking.js';
 
 export const HistoryEngine = {
 
@@ -111,6 +112,15 @@ export const HistoryEngine = {
 
     const valid = results.filter(r => !r.isError);
     finalizeCrossSectional(valid, { marketRegime, sectorRotation, sectorEnabled: opts.sectorEnabled || false, qualityScorer: computeQualityScore, rsBenchmark });
+
+    // V2新增（第九阶段信号跟踪）：批量历史回溯本质上也是"在某个历史日期做了一次扫描"，
+    // 同样值得记录进 signal_history，方便之后统计"某个历史日期选出的股票，后续实际表现"——
+    // 这正是回测的基础数据。标注 isHistorical=true 区分于实时扫描的信号。
+    try {
+      await SignalTracking.recordScan(valid, asOfDate, true);
+    } catch (e) {
+      console.warn(`[HistoryEngine] 信号跟踪写入失败(不影响本次回溯结果): ${e.message}`);
+    }
 
     return {
       asOfDate, marketRegime, sectorRotation, isHistorical: true,
