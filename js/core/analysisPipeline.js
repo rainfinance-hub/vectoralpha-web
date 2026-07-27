@@ -10,11 +10,13 @@
 'use strict';
 import { DataSource } from '../data/dataSource.js';
 import { Fundamentals } from '../data/fundamentals.js';
+import { getSectorForSymbol } from '../data/sectorMap.js';
 import { Indicators as I } from '../core/indicators.js';
 import { Timeframe as TF } from '../core/timeframe.js';
 import { ResonanceEngine } from '../signals/resonance.js';
 import { InstitutionalEngine } from '../signals/institutional.js';
 import { CompositeScore } from '../signals/compositeScore.js';
+import { MarketContext } from '../signals/marketContext.js';
 
 /** 构建单只股票的"技术上下文"：日/周/短周期/（可选）小时线 close 序列 + 原始统计字段 */
 async function buildTechnicalContext(sym, asOfDate) {
@@ -92,12 +94,19 @@ export async function analyzeSymbol(sym, { asOfDate = null, marketRegime = null,
   const weinstein = InstitutionalEngine.weinstein(ctx);
   const canslim = InstitutionalEngine.canslim(ctx, fund, null, marketRegime ? marketRegime.trendUp : null);
 
-  const sectorEtf = null; // 个股->板块映射留给 UI/Universe 层按行业标签匹配 SECTOR_ETFS，这里先不耦合
-  const sectorScore = sectorEnabled ? 50 : null;
+  // 2026-07 修复：之前这里恒定 sectorEtf=null / sectorScore=50(或null，取决于开关)，
+  // 两个变量算出来之后从未被用到返回对象里，行业层实际上从来没有真正生效过
+  // （详见 compositeScore.js 和 marketContext.js 的同批修复说明）。现在改成：
+  // 用 sectorMap.js 查真实板块归属，开启行业轮动时用 MarketContext.sectorScoreFor()
+  // 算出该股票在本次板块轮动排名里的真实百分位，并把两者都放进返回对象，
+  // 供 finalizeCrossSectional 传给 CompositeScore、以及风控工作台的行业仓位上限使用。
+  const sectorEtf = getSectorForSymbol(sym);
+  const sectorScore = sectorEnabled ? MarketContext.sectorScoreFor(sectorEtf, sectorRotation) : null;
 
   return {
     sym, price: ctx.price, effectiveDate: ctx.effectiveDate, requestedDate: ctx.requestedDate, isNonTradingDay: ctx.isNonTradingDay,
     dataSource: ctx.dataSource,
+    sectorEtf, sectorScore,
     rawRS,
     resonance,
     institutional: { minervini, weinstein, canslim, rs: { value: rawRS, percentile: null } },
@@ -116,12 +125,25 @@ export async function analyzeSymbol(sym, { asOfDate = null, marketRegime = null,
  * 横截面收尾：批量分析完成后，计算 RS 百分位并回填到每条结果，
  * 同时用回填后的 RS 重新计算依赖 RS 的 Minervini / CANSLIM 子项，
  * 再调用组合评分器算出最终 composite。
+ *
+ * 2026-07 新增 rsBenchmark 参数：如果调用方(scanEngine/historyEngine)传入了
+ * 一份"全市场RS基准池"(见 rsBenchmark.js)，RS百分位就相对这个统一、跨扫描
+ * 稳定的基准分布来算，不再单纯依赖"这次扫描样本恰好有哪些股票"；每条结果
+ * 都会标注 institutional.rs.basis = 'benchmark'|'sample'，方便前端/用户知道
+ * 这个百分位的可信度和口径。rsBenchmark 缺失或样本太小时自动回退为旧的
+ * "样本内百分位"算法，不影响主流程。
  */
-export function finalizeCrossSectional(results, { marketRegime = null, sectorRotation = null, sectorEnabled = false, qualityScorer = null } = {}) {
-  const rsValues = results.map(r => r.rawRS).filter(v => v != null).sort((a, b) => a - b);
+export function finalizeCrossSectional(results, { marketRegime = null, sectorRotation = null, sectorEnabled = false, qualityScorer = null, rsBenchmark = null } = {}) {
+  const useBenchmark = !!(rsBenchmark && Array.isArray(rsBenchmark.rsValues) && rsBenchmark.rsValues.length >= 30);
+  const sampleRsValues = results.map(r => r.rawRS).filter(v => v != null).sort((a, b) => a - b);
   for (const r of results) {
-    const pct = r.rawRS != null ? I.percentileRank(r.rawRS, rsValues) : null;
+    let pct = null, rsBasis = 'sample';
+    if (r.rawRS != null) {
+      if (useBenchmark) { pct = I.percentileRank(r.rawRS, rsBenchmark.rsValues); rsBasis = 'benchmark'; }
+      else { pct = I.percentileRank(r.rawRS, sampleRsValues); rsBasis = 'sample'; }
+    }
     r.institutional.rs.percentile = pct;
+    r.institutional.rs.basis = rsBasis;
     r.institutional.minervini = InstitutionalEngine.minervini(r._ctx, pct);
     r.institutional.canslim = InstitutionalEngine.canslim(r._ctx, r.quality.fund, pct, marketRegime ? marketRegime.trendUp : null);
     if (qualityScorer && r.quality.available) {
@@ -132,7 +154,7 @@ export function finalizeCrossSectional(results, { marketRegime = null, sectorRot
     }
     r.composite = CompositeScore.compute({
       marketScore: marketRegime && marketRegime.available ? marketRegime.score : null,
-      sectorScore: null, sectorEnabled,
+      sectorScore: r.sectorScore, sectorEnabled,
       resonance: r.resonance,
       institutional: r.institutional,
       quality: r.quality,

@@ -21,6 +21,7 @@ import { analyzeSymbol, finalizeCrossSectional } from './analysisPipeline.js';
 import { MarketContext } from '../signals/marketContext.js';
 import { computeQualityScore } from '../signals/qualityScore.js';
 import { DataSource } from '../data/dataSource.js';
+import { RSBenchmark } from './rsBenchmark.js';
 
 export const HistoryEngine = {
 
@@ -81,6 +82,13 @@ export const HistoryEngine = {
       ]);
     } catch (e) { /* 批量预取失败不阻断，后面逐只请求会自动兜底 */ }
 
+    // 全市场RS基准池（2026-07 新增）：历史回溯用"该历史日期"对应的基准分布，
+    // 不是今天的基准——历史价格不变，这份基准一旦为某个日期建立过就会一直缓存复用。
+    const rsBenchmark = await RSBenchmark.ensureFresh(asOfDate).catch(e => {
+      console.warn(`[HistoryEngine] 全市场RS基准(${asOfDate})不可用，回退为样本内百分位: ${e.message}`);
+      return null;
+    });
+
     // 并发worker池扫描，原理和 scanEngine.js 一致（预取后基本命中缓存，默认并发调到8）
     const concurrency = Math.max(1, Math.min(opts.concurrency || 8, symbols.length));
     const results = new Array(symbols.length);
@@ -102,10 +110,11 @@ export const HistoryEngine = {
     await Promise.all(Array.from({ length: concurrency }, worker));
 
     const valid = results.filter(r => !r.isError);
-    finalizeCrossSectional(valid, { marketRegime, sectorRotation, sectorEnabled: opts.sectorEnabled || false, qualityScorer: computeQualityScore });
+    finalizeCrossSectional(valid, { marketRegime, sectorRotation, sectorEnabled: opts.sectorEnabled || false, qualityScorer: computeQualityScore, rsBenchmark });
 
     return {
       asOfDate, marketRegime, sectorRotation, isHistorical: true,
+      rsBenchmarkMeta: rsBenchmark ? { universeSize: rsBenchmark.universeSize, sampleOk: rsBenchmark.sampleOk, builtAt: rsBenchmark.builtAt, asOfDate: rsBenchmark.asOfDate } : null,
       results: [...valid, ...results.filter(r => r.isError)],
       nonPointInTimeWarning: '⚠️ 基本面/机构持仓相关字段使用当前最新快照数据，非该历史日期时点数据（免费数据源限制）',
     };

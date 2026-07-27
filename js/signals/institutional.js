@@ -126,7 +126,16 @@ export const InstitutionalEngine = {
     ];
     const known = detail.filter(d => d.available && d.pass !== null);
     const score = known.length ? Math.round(known.filter(d => d.pass).length / known.length * 100) : null;
-    return { score, detail, sampleSize: known.length, totalItems: detail.length };
+    // 2026-07 新增：数据覆盖率 + 置信度标注。评审里点出的真实问题——CANSLIM混合了
+    // C/A/N/S/L/I/M七个维度，免费Finnhub额度经常缺C/A/I，score只是"可用维度里的通过率"，
+    // 78分如果只是4/7维度可用算出来的，含金量和7/7全可用的78分完全不一样，
+    // 之前只在文字里提了sampleSize/totalItems，没有一个直接可读的置信度结论，
+    // 容易被误解成"78分=很强"。这里显式给出 coverage 字符串 + High/Medium/Low 置信度，
+    // 前端(detail modal + 派生池列表)据此提示，而不是让用户自己去算 sampleSize/totalItems。
+    const coverage = `${known.length}/${detail.length}`;
+    const confidence = known.length >= 6 ? 'High' : known.length >= 4 ? 'Medium' : 'Low';
+    const confidenceLabel = { High: '高（≥6/7项可用）', Medium: '中（4~5/7项可用）', Low: '低（≤3/7项可用，评分参考意义有限）' }[confidence];
+    return { score, detail, sampleSize: known.length, totalItems: detail.length, coverage, confidence, confidenceLabel };
   },
 
   /** RS：个股相对SPY的N日收益率差，横截面百分位在 analysisPipeline 里批量回填 */

@@ -12,6 +12,7 @@ import { UniverseEngine } from '../core/universeEngine.js';
 import { ScanEngine } from '../core/scanEngine.js';
 import { HistoryEngine } from '../core/historyEngine.js';
 import { RiskWorkbench } from '../core/riskWorkbench.js';
+import { RSBenchmark } from '../core/rsBenchmark.js';
 import { Notify } from '../core/notify.js';
 import { CloudSync } from '../core/cloudSync.js';
 import { MarketContext } from '../signals/marketContext.js';
@@ -194,7 +195,7 @@ function openDetailModal(r) {
 function renderDetailContent(r) {
   const c = r.composite;
   let html = `<h2 style="margin-top:0">${r.sym} <span style="color:${scoreColor(c?.score)}">综合评分 ${c?.score ?? 'N/A'}</span></h2>`;
-  html += `<div class="hint">价格 $${fmtNum(r.price)} · 数据日期 ${r.effectiveDate || r.requestedDate || ''} · 数据源(日线/小时线): ${r.dataSource?.daily}/${r.dataSource?.hourly}</div>`;
+  html += `<div class="hint">价格 $${fmtNum(r.price)} · 数据日期 ${r.effectiveDate || r.requestedDate || ''} · 数据源(日线/小时线): ${r.dataSource?.daily}/${r.dataSource?.hourly} · 板块归属: ${r.sectorEtf || '未归类'}</div>`;
 
   if (r.isHistorical) {
     if (r.isNonTradingDay) html += `<div class="warn-banner">⚠️ ${r.requestedDate} 非交易日，已自动使用最近交易日 ${r.effectiveDate}</div>`;
@@ -234,11 +235,11 @@ function renderDetailContent(r) {
     html += `<b>Weinstein 阶段分析</b>：${inst.weinstein.label || inst.weinstein.note || 'N/A'}`;
   }
   if (inst.canslim) {
-    html += `<b>CANSLIM</b>（评分 ${inst.canslim.score ?? 'N/A'}，样本 ${inst.canslim.sampleSize}/${inst.canslim.totalItems} 项可用）<ul class="detail-list">`;
+    html += `<b>CANSLIM</b>（评分 ${inst.canslim.score ?? 'N/A'}，数据覆盖 ${inst.canslim.coverage ?? inst.canslim.sampleSize + '/' + inst.canslim.totalItems}，置信度：${inst.canslim.confidenceLabel ?? 'N/A'}）<ul class="detail-list">`;
     html += inst.canslim.detail.map(d => `<li><span class="ck">${d.available ? tagHtml(d.pass) : '<span class="tag tag-na">不可用</span>'}</span><div>[${d.key}] ${d.label}${d.note ? ' · ' + d.note : ''}</div></li>`).join('');
     html += `</ul>`;
   }
-  if (inst.rs) html += `<div class="hint">RS 相对强度百分位（样本内）：${inst.rs.percentile ?? 'N/A'}</div>`;
+  if (inst.rs) html += `<div class="hint">RS 相对强度百分位：${inst.rs.percentile ?? 'N/A'}${inst.rs.basis ? `（${inst.rs.basis === 'benchmark' ? '✓ 相对全市场RS基准池，跨扫描可比' : '⚠️ 相对本次样本内，基准池不可用时的回退算法，换一批股票扫描结果会不同'}）` : ''}</div>`;
 
   // 质量层
   if (r.quality) {
@@ -272,7 +273,7 @@ function renderDerivedPools(pools) {
     { key: 'highRS', name: 'High Relative Strength 高强度池', metric: r => `RS ${r.institutional.rs.percentile}` },
     { key: 'newHighs', name: 'New Highs 新高池', metric: r => `价格 $${fmtNum(r.price)} / 52周高 $${fmtNum(r.raw.high52w)}` },
     { key: 'institutional', name: 'Institutional Buying 机构买入代理池 ⚠️非真实机构数据', metric: r => `CMF ${fmtNum(r.raw.cmfNow, 3)}` },
-    { key: 'canslim', name: 'CANSLIM Candidates', metric: r => `评分 ${r.institutional.canslim.score}` },
+    { key: 'canslim', name: 'CANSLIM Candidates', metric: r => `评分 ${r.institutional.canslim.score}（数据覆盖${r.institutional.canslim.coverage ?? 'N/A'}，置信度${r.institutional.canslim.confidence ?? 'N/A'}）` },
     { key: 'minervini', name: 'Minervini Candidates', metric: r => `RS ${r.institutional.rs.percentile}` },
   ];
   const box = $('#derivedPoolsBox');
@@ -374,9 +375,11 @@ function initRiskPage() {
     if (!STATE.lastScanResult) { alert('请先完成一次扫描'); return; }
     const ranked = STATE.lastScanResult.results.filter(r => !r.isError && r.composite?.score != null && r.composite.score >= 60)
       .sort((a, b) => b.composite.score - a.composite.score);
+    const maxSectorPctInput = Number($('#rmMaxSector').value);
     const cfg = {
       equity: Number($('#rmEquity').value), riskPct: Number($('#rmRiskPct').value),
-      maxPosPct: Number($('#rmMaxPos').value), stopMode: $('#rmStopMode').value,
+      maxPosPct: Number($('#rmMaxPos').value), maxSectorPct: maxSectorPctInput > 0 ? maxSectorPctInput : null,
+      stopMode: $('#rmStopMode').value,
     };
     const wb = RiskWorkbench.buildWorkbench(ranked, cfg);
     renderWorkbenchTable(wb);
@@ -397,13 +400,21 @@ function renderPortfolioTable() {
 }
 
 function renderWorkbenchTable(wb) {
-  $('#tblWorkbench thead').innerHTML = `<tr><th>代码</th><th>现价</th><th>止损价</th><th>止损%</th><th>止盈价</th><th>建议股数</th><th>占用资金</th><th>风险金额</th><th>状态</th></tr>`;
+  $('#tblWorkbench thead').innerHTML = `<tr><th>代码</th><th>板块</th><th>现价</th><th>止损价</th><th>止损%</th><th>止盈价</th><th>建议股数</th><th>占用资金</th><th>风险金额</th><th>状态</th></tr>`;
   $('#tblWorkbench tbody').innerHTML = wb.rows.map(r => `<tr>
-    <td>${r.sym}</td><td>$${fmtNum(r.price)}</td><td>${r.ok ? '$' + fmtNum(r.stopPrice) : '-'}</td>
+    <td>${r.sym}</td><td>${r.sectorEtf || '未归类'}</td><td>$${fmtNum(r.price)}</td><td>${r.ok ? '$' + fmtNum(r.stopPrice) : '-'}</td>
     <td>${r.ok ? fmtPct(r.stopPct) : '-'}</td><td>${r.ok ? '$' + fmtNum(r.targetPrice) : '-'}</td>
     <td>${r.ok ? r.shares : '-'}</td><td>${r.ok ? '$' + r.capitalNeeded : '-'}</td><td>${r.ok ? '$' + r.riskAmount : '-'}</td>
-    <td>${r.ok ? (r.capped ? '已按上限缩减' : '正常') : r.reason}</td>
-  </tr>`).join('') + `<tr><td colspan="9" style="color:var(--green)">已分配资金 $${wb.allocatedCapital} / 剩余 $${wb.remainingCapital}（账户总资产 $${wb.equity}）</td></tr>`;
+    <td>${r.ok ? (r.capped ? `已按上限缩减(${(r.capReasons || []).join('、')})` : '正常') + (r.sectorNote ? `<br><span class="hint">${r.sectorNote}</span>` : '') : r.reason}</td>
+  </tr>`).join('') + `<tr><td colspan="10" style="color:var(--green)">已分配资金 $${wb.allocatedCapital} / 剩余 $${wb.remainingCapital}（账户总资产 $${wb.equity}）</td></tr>`;
+
+  // 行业分布汇总（2026-07 新增）：一眼看出这次仓位建议有没有在某个行业过度集中
+  const sumBox = $('#workbenchSectorSummary');
+  if (sumBox) {
+    sumBox.innerHTML = (wb.sectorSummary && wb.sectorSummary.length)
+      ? `行业资金分布：${wb.sectorSummary.map(s => `${s.sectorEtf} $${s.allocated}(${s.pctOfEquity}%)`).join(' · ')}`
+      : '';
+  }
 }
 
 function reviewHoldings() {
@@ -496,6 +507,26 @@ function initSettingsPage() {
     alert('发送结果: ' + JSON.stringify(r));
   });
   $('#btnSaveCloud').addEventListener('click', () => { CloudSync.saveBaseUrl($('#setCloudBase').value.trim()); alert('已保存'); });
+
+  // 全市场RS基准池状态 + 手动刷新（2026-07 新增，见 rsBenchmark.js）
+  // 注意：这个页面(和其他所有页面)只在应用启动时init一次，之后切标签页只是
+  // CSS层面的显示/隐藏，不会重新执行这段代码——如果只在这里设一次文本，
+  // 用户在「设置」页之前跑过的扫描会静默建立好基准池，但这里还是显示"尚未建立"，
+  // 容易误导用户以为没生效。所以额外给"设置"这个tab按钮加一个点击监听，
+  // 每次点进「设置」页都重新读一次最新状态。
+  $('#rsBenchmarkStatus').textContent = RSBenchmark.getStatusText();
+  document.querySelector('.tab-btn[data-page="settings"]')?.addEventListener('click', () => {
+    $('#rsBenchmarkStatus').textContent = RSBenchmark.getStatusText();
+  });
+  $('#btnRefreshRsBenchmark').addEventListener('click', async () => {
+    $('#rsBenchmarkStatus').textContent = '正在重新构建基准池，样本约700~900只，可能需要几十秒...';
+    try {
+      await RSBenchmark.forceRebuild(null);
+      $('#rsBenchmarkStatus').textContent = RSBenchmark.getStatusText();
+    } catch (e) {
+      $('#rsBenchmarkStatus').textContent = `✗ 构建失败: ${e.message}（不影响正常扫描，会自动回退为样本内百分位）`;
+    }
+  });
 }
 
 // ---------------------------------------------------------------------------

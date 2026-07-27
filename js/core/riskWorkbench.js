@@ -9,6 +9,16 @@
  *  2. 持仓复核：对已有持仓，结合最新扫描出的评分与用户自定义止损/成本价，
  *     给出"继续持有/加仓/减仓/卖出"建议，并说明触发的具体规则。
  *
+ * 2026-07 修复：之前 maxSectorPct(单行业资金上限) 只在README里提过、cfg参数
+ * 名字也留了位置，但 buildWorkbench 实际从来没用过它——这是评审指出的真实
+ * 实现缺口：系统可能同时给 NVDA/AMD/AVGO/ARM/MU/SMCI 各分配15%仓位，单只看
+ * 都合理，组合实际却高度集中在半导体。现在真正接入：每只候选股票用
+ * analysisPipeline.js 算出的 sectorEtf(见 sectorMap.js) 归类，按板块累计已分配
+ * 资金，超过 equity*maxSectorPct% 时对该行业后续候选自动缩减股数/跳过，
+ * 和"单仓上限""组合总资金上限"三层依次生效，谁先卡住就按谁的上限来。
+ * 查不到板块归属的股票(sectorEtf=null)不受这层约束，会在结果里标注清楚，
+ * 不是"漏掉了"，是"数据源覆盖不到，无法归类"。
+ *
  * 止损模式（均为"当前时点参考价"，不是会随股价上涨自动上移的动态追踪止损，
  * 每次重新计算都会用最新数据重新算一次）：
  *   structural  = 近3日低点
@@ -38,8 +48,9 @@ export const RiskWorkbench = {
    * @param {object} cfg { equity, riskPct, maxPosPct, maxSectorPct, stopMode, atrMultiple, targetRMultiple }
    */
   buildWorkbench(rankedResults, cfg) {
-    const { equity, riskPct, maxPosPct, stopMode, atrMultiple = 2.5, targetRMultiple = 2 } = cfg;
+    const { equity, riskPct, maxPosPct, maxSectorPct = null, stopMode, atrMultiple = 2.5, targetRMultiple = 2 } = cfg;
     let allocatedCapital = 0;
+    const sectorAllocated = {}; // sectorEtf -> 已分配资金，用于行业上限判断
     const rows = [];
     for (const r of rankedResults) {
       if (r.isError || r.price == null) continue;
@@ -51,14 +62,40 @@ export const RiskWorkbench = {
       const riskPerShare = r.price - stopPrice;
       const riskBudget = equity * (riskPct / 100);
       let shares = Math.floor(riskBudget / riskPerShare);
-      let capitalNeeded = shares * r.price;
-      const maxCapitalForThisPos = equity * (maxPosPct / 100);
       let capped = false;
-      if (capitalNeeded > maxCapitalForThisPos) {
+      const capReasons = [];
+
+      // ① 单仓上限
+      const maxCapitalForThisPos = equity * (maxPosPct / 100);
+      if (shares * r.price > maxCapitalForThisPos) {
         shares = Math.floor(maxCapitalForThisPos / r.price);
-        capitalNeeded = shares * r.price;
-        capped = true;
+        capped = true; capReasons.push('单仓上限');
       }
+
+      // ② 单行业上限（2026-07 新增，真正生效）：sectorEtf 未知的股票不受约束，明确标注原因
+      const sectorEtf = r.sectorEtf || null;
+      let sectorNote = null;
+      if (maxSectorPct != null && maxSectorPct > 0) {
+        if (sectorEtf) {
+          const sectorCap = equity * (maxSectorPct / 100);
+          const sectorUsed = sectorAllocated[sectorEtf] || 0;
+          const sectorRemaining = sectorCap - sectorUsed;
+          if (sectorRemaining < r.price) {
+            rows.push({ sym: r.sym, price: r.price, ok: false, sectorEtf, reason: `已达该行业(${sectorEtf})资金上限，跳过` });
+            continue;
+          }
+          const maxSharesForSector = Math.floor(sectorRemaining / r.price);
+          if (shares > maxSharesForSector) {
+            shares = maxSharesForSector;
+            capped = true; capReasons.push(`行业上限(${sectorEtf})`);
+          }
+        } else {
+          sectorNote = '⚠️未查到板块归属，不受行业仓位上限约束';
+        }
+      }
+
+      // ③ 组合总资金上限
+      let capitalNeeded = shares * r.price;
       if (allocatedCapital + capitalNeeded > equity) {
         const remaining = equity - allocatedCapital;
         if (remaining <= 0 || remaining < r.price) {
@@ -67,24 +104,29 @@ export const RiskWorkbench = {
         }
         shares = Math.floor(remaining / r.price);
         capitalNeeded = shares * r.price;
-        capped = true;
+        capped = true; capReasons.push('组合总资金');
       }
+
       if (shares <= 0) {
-        rows.push({ sym: r.sym, price: r.price, ok: false, reason: '按当前风险预算计算出的股数为0' });
+        rows.push({ sym: r.sym, price: r.price, ok: false, reason: '按当前风险预算/上限计算出的股数为0' });
         continue;
       }
       allocatedCapital += capitalNeeded;
+      if (sectorEtf) sectorAllocated[sectorEtf] = (sectorAllocated[sectorEtf] || 0) + capitalNeeded;
       const riskAmount = shares * riskPerShare;
       const targetPrice = r.price + riskPerShare * targetRMultiple;
       rows.push({
-        sym: r.sym, price: r.price, ok: true, capped,
+        sym: r.sym, price: r.price, ok: true, capped, capReasons: capReasons.length ? capReasons : undefined, sectorEtf, sectorNote,
         stopPrice: Math.round(stopPrice * 100) / 100, stopPct: Math.round((riskPerShare / r.price) * 1000) / 10,
         targetPrice: Math.round(targetPrice * 100) / 100, shares, capitalNeeded: Math.round(capitalNeeded),
         riskAmount: Math.round(riskAmount), riskPctOfAccount: Math.round((riskAmount / equity) * 1000) / 10,
         compositeScore: r.composite ? r.composite.score : null,
       });
     }
-    return { rows, allocatedCapital: Math.round(allocatedCapital), remainingCapital: Math.round(equity - allocatedCapital), equity };
+    const sectorSummary = Object.entries(sectorAllocated).map(([etf, cap]) => ({
+      sectorEtf: etf, allocated: Math.round(cap), pctOfEquity: Math.round((cap / equity) * 1000) / 10,
+    })).sort((a, b) => b.allocated - a.allocated);
+    return { rows, allocatedCapital: Math.round(allocatedCapital), remainingCapital: Math.round(equity - allocatedCapital), equity, sectorSummary };
   },
 
   /**

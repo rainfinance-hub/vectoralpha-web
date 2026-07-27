@@ -55,11 +55,18 @@ export const MarketContext = {
     return { available: valid.length > 0, ranking: valid, bySymbol, lookbackDays };
   },
 
-  /** 给定某个股所属板块ETF代码，返回它在板块轮动排名里的百分位分数(0-100)，找不到时返回中性50 */
+  /**
+   * 给定某个股所属板块ETF代码，返回它在板块轮动排名里的百分位分数(0-100)。
+   * 2026-07 修复：之前这里查不到数据时会返回中性50分，导致"不知道"被当成
+   * "中性"参与打分，还会让 compositeScore.js 误以为该层"可用"从而占满整个
+   * 10%权重。现在统一返回 null，明确表示"这一层这只股票算不出来"，
+   * 由 compositeScore.js 把权重按比例分给其他真正可用的层。
+   */
   sectorScoreFor(sectorEtfSym, sectorRotation) {
-    if (!sectorRotation || !sectorRotation.available || !sectorEtfSym) return 50;
+    if (!sectorEtfSym) return null; // 该股票没有可识别的板块归属(见 sectorMap.js 的局限性说明)
+    if (!sectorRotation || !sectorRotation.available) return null; // 行业轮动数据本身不可用
     const item = sectorRotation.bySymbol[sectorEtfSym];
-    if (!item || item.rank == null) return 50;
+    if (!item || item.rank == null) return null;
     const total = sectorRotation.ranking.length;
     return Math.round((1 - (item.rank - 1) / Math.max(1, total - 1)) * 100);
   },

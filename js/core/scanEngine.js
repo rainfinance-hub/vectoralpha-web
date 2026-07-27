@@ -34,6 +34,7 @@ import { analyzeSymbol, finalizeCrossSectional } from './analysisPipeline.js';
 import { MarketContext } from '../signals/marketContext.js';
 import { computeQualityScore } from '../signals/qualityScore.js';
 import { DataSource } from '../data/dataSource.js';
+import { RSBenchmark } from './rsBenchmark.js';
 
 export const ScanEngine = {
   async scan(symbols, opts = {}, onProgress = null) {
@@ -53,6 +54,14 @@ export const ScanEngine = {
         DataSource.getHourlyBatch(symbols, { monthsBack: 6 }),
       ]);
     } catch (e) { /* 批量预取失败不阻断，后面逐只请求会自动兜底 */ }
+
+    // 全市场RS基准池（2026-07 新增，见 rsBenchmark.js）：优先用缓存(今天已建立过就直接用)，
+    // 缓存过期才重新构建。构建失败(没配置Key/网络问题/样本太小)会自动回退为
+    // "本次扫描样本内百分位"(和之前版本行为一致)，不会导致扫描失败。
+    const rsBenchmark = await RSBenchmark.ensureFresh(null).catch(e => {
+      console.warn(`[ScanEngine] 全市场RS基准不可用，回退为样本内百分位: ${e.message}`);
+      return null;
+    });
 
     const concurrency = Math.max(1, Math.min(opts.concurrency || 8, symbols.length));
     const results = new Array(symbols.length);
@@ -76,10 +85,11 @@ export const ScanEngine = {
     await Promise.all(Array.from({ length: concurrency }, worker));
 
     const valid = results.filter(r => !r.isError);
-    finalizeCrossSectional(valid, { marketRegime, sectorRotation, sectorEnabled: opts.sectorEnabled || false, qualityScorer: computeQualityScore });
+    finalizeCrossSectional(valid, { marketRegime, sectorRotation, sectorEnabled: opts.sectorEnabled || false, qualityScorer: computeQualityScore, rsBenchmark });
 
     return {
       isHistorical: false, marketRegime, sectorRotation,
+      rsBenchmarkMeta: rsBenchmark ? { universeSize: rsBenchmark.universeSize, sampleOk: rsBenchmark.sampleOk, builtAt: rsBenchmark.builtAt } : null,
       results: [...valid, ...results.filter(r => r.isError)],
       scannedAt: new Date().toISOString(),
     };
