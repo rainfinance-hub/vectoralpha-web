@@ -1,0 +1,784 @@
+{
+  "meta": {
+    "version": "1.1",
+    "generated_at": "2026-07-30",
+    "verified_by": "claude + web_search 核实 Dow30 最新成分；claude 校验并修复用户提交版本的JSON语法错误",
+    "single_source_of_truth": "VectorAlpha Web 的 js/data/symbolLists.js（该仓库为唯一权威来源，其余工具通过 fetch 本文件同步，不再各自维护硬编码清单）",
+    "usage": "各工具启动时 fetch 本文件（raw.githubusercontent.com 地址），失败时回退到本地内置清单，不影响工具可用性",
+    "known_issues": "growth.themes 目前仍是待补状态——上一版复制的是 GROWTH_THEMES 的变量名索引，不是实际股票代码，需要额外去 symbolLists.js 里找 source_vars 列出的这些数组的真实内容"
+  },
+  "core": {
+    "label": "Core Universe 核心池",
+    "stars": 5,
+    "description": "S&P500 + Nasdaq100 + Dow30 去重合并",
+    "status": "partial",
+    "components": {
+      "sp500": {
+        "status": "live_fetch",
+        "note": "不写死清单，运行时实时抓取，成分股变动相对频繁",
+        "fetch_url": "https://raw.githubusercontent.com/datasets/s-and-p-500-companies/master/data/constituents.csv"
+      },
+      "nasdaq100": {
+        "status": "complete_needs_verify",
+        "note": "已从symbolLists.js导出，共98只，比标准的100只少2只，建议核对一下是否漏抄了2个代码（或者当前symbolLists.js里本来就没写满100只）",
+        "as_of": "2026-07-30（导出日期，非官方成分股调整日期）",
+        "tickers": [
+          "AAPL",
+          "ABNB",
+          "ADBE",
+          "ADI",
+          "ADP",
+          "AEP",
+          "ALGN",
+          "AMAT",
+          "AMD",
+          "AMGN",
+          "AMZN",
+          "ANSS",
+          "AVGO",
+          "BIIB",
+          "BKNG",
+          "BKR",
+          "CDNS",
+          "CDW",
+          "CHTR",
+          "CMCSA",
+          "COST",
+          "CPRT",
+          "CRWD",
+          "CSCO",
+          "CSGP",
+          "CSX",
+          "CTAS",
+          "CTSH",
+          "DASH",
+          "DDOG",
+          "DXCM",
+          "EA",
+          "ENPH",
+          "EXC",
+          "FANG",
+          "FAST",
+          "FTNT",
+          "GEHC",
+          "GFS",
+          "GILD",
+          "GOOG",
+          "GOOGL",
+          "HON",
+          "ILMN",
+          "INTC",
+          "INTU",
+          "ISRG",
+          "JD",
+          "KDP",
+          "KHC",
+          "KLAC",
+          "LCID",
+          "LIN",
+          "LRCX",
+          "LULU",
+          "MAR",
+          "MDB",
+          "MDLZ",
+          "MELI",
+          "META",
+          "MNST",
+          "MRNA",
+          "MRVL",
+          "MSFT",
+          "MU",
+          "NFLX",
+          "NVDA",
+          "NXPI",
+          "ODFL",
+          "ON",
+          "ORLY",
+          "PANW",
+          "PAYX",
+          "PCAR",
+          "PDD",
+          "PEP",
+          "PYPL",
+          "QCOM",
+          "REGN",
+          "RIVN",
+          "ROP",
+          "ROST",
+          "SBUX",
+          "SIRI",
+          "SMCI",
+          "SNPS",
+          "TEAM",
+          "TMUS",
+          "TSLA",
+          "TTD",
+          "TXN",
+          "VRSK",
+          "VRTX",
+          "WBA",
+          "WBD",
+          "WDAY",
+          "XEL",
+          "ZS"
+        ]
+      },
+      "dow30": {
+        "status": "complete",
+        "note": "已用 web_search 核实到 2026年内最新版本（late-2025调整：NVDA替换INTC，SHW替换Dow Inc.）",
+        "as_of": "2026-02",
+        "tickers": [
+          "AAPL",
+          "MSFT",
+          "NVDA",
+          "CRM",
+          "CSCO",
+          "IBM",
+          "AMZN",
+          "VZ",
+          "JPM",
+          "GS",
+          "AXP",
+          "V",
+          "TRV",
+          "UNH",
+          "JNJ",
+          "MRK",
+          "AMGN",
+          "BA",
+          "CAT",
+          "HON",
+          "MMM",
+          "WMT",
+          "PG",
+          "KO",
+          "MCD",
+          "NKE",
+          "DIS",
+          "HD",
+          "CVX",
+          "SHW"
+        ]
+      }
+    }
+  },
+  "etf": {
+    "label": "ETF Universe",
+    "stars": 4,
+    "description": "宽基 + 板块 + 主题ETF，代表机构资金的板块/主题轮动方向",
+    "status": "complete",
+    "expected_count": 27,
+    "actual_count": 27,
+    "note": "已核实：27只，与VectorAlpha说明文档记录一致。与Sector Universe有重叠(11只SPDR板块ETF同时也在这里)，这是设计预期，不是错误",
+    "tickers": [
+      "SPY",
+      "QQQ",
+      "IWM",
+      "DIA",
+      "SMH",
+      "SOXX",
+      "IGV",
+      "ARKK",
+      "XLF",
+      "XLK",
+      "XLE",
+      "XLI",
+      "XLY",
+      "XLV",
+      "XLP",
+      "XLU",
+      "XLB",
+      "XLRE",
+      "XLC",
+      "XBI",
+      "VNQ",
+      "TLT",
+      "IEF",
+      "GLD",
+      "SLV",
+      "USO",
+      "UUP"
+    ]
+  },
+  "sector": {
+    "label": "Sector Universe 板块池",
+    "stars": 3,
+    "description": "11只SPDR Select Sector系列板块ETF，用于板块相对强度排名",
+    "status": "complete",
+    "note": "标准SPDR系列，构成基本稳定，来自VectorAlpha代码 SECTOR_ETFS 常量",
+    "tickers": [
+      {
+        "sym": "XLK",
+        "name": "科技 Technology"
+      },
+      {
+        "sym": "XLF",
+        "name": "金融 Financials"
+      },
+      {
+        "sym": "XLV",
+        "name": "医疗 Healthcare"
+      },
+      {
+        "sym": "XLY",
+        "name": "可选消费 Cons.Discretionary"
+      },
+      {
+        "sym": "XLP",
+        "name": "必需消费 Cons.Staples"
+      },
+      {
+        "sym": "XLE",
+        "name": "能源 Energy"
+      },
+      {
+        "sym": "XLI",
+        "name": "工业 Industrials"
+      },
+      {
+        "sym": "XLB",
+        "name": "材料 Materials"
+      },
+      {
+        "sym": "XLU",
+        "name": "公用事业 Utilities"
+      },
+      {
+        "sym": "XLRE",
+        "name": "房地产 Real Estate"
+      },
+      {
+        "sym": "XLC",
+        "name": "通信服务 Comm.Services"
+      }
+    ]
+  },
+  "industry": {
+    "label": "Industry Universe 行业池",
+    "stars": 4,
+    "description": "56个细分行业，每行业约5只龙头",
+    "status": "complete",
+    "expected_count": 258,
+    "actual_unique_count": 258,
+    "note": "已核实：56个行业分组，去重后258只，与说明文档记录完全一致",
+    "groups": {
+      "AI / 人工智能": [
+        "NVDA",
+        "AMD",
+        "AVGO",
+        "PLTR",
+        "SMCI"
+      ],
+      "AI基础设施/数据中心 Data Center": [
+        "VRT",
+        "ETN",
+        "EQIX",
+        "DLR",
+        "MOD"
+      ],
+      "软件 Software/SaaS": [
+        "MSFT",
+        "CRM",
+        "NOW",
+        "WDAY",
+        "ADBE"
+      ],
+      "网络安全 Cybersecurity": [
+        "CRWD",
+        "PANW",
+        "ZS",
+        "FTNT",
+        "S"
+      ],
+      "云计算基础设施 Cloud Infra": [
+        "AMZN",
+        "GOOGL",
+        "MSFT",
+        "NET",
+        "DDOG"
+      ],
+      "数据分析/云软件 Data & Analytics": [
+        "SNOW",
+        "PLTR",
+        "MDB",
+        "ESTC",
+        "CFLT"
+      ],
+      "半导体设计 Semiconductor Design": [
+        "NVDA",
+        "AMD",
+        "AVGO",
+        "QCOM",
+        "MRVL"
+      ],
+      "半导体设备 Semiconductor Equip": [
+        "ASML",
+        "AMAT",
+        "LRCX",
+        "KLAC",
+        "TER"
+      ],
+      "网络硬件 Networking": [
+        "CSCO",
+        "ANET",
+        "JNPR",
+        "CIEN",
+        "NOK"
+      ],
+      "货币中心银行 Money Center Banks": [
+        "JPM",
+        "BAC",
+        "C",
+        "WFC",
+        "GS"
+      ],
+      "区域银行 Regional Banks": [
+        "PNC",
+        "USB",
+        "TFC",
+        "RF",
+        "FITB"
+      ],
+      "资产管理 Asset Management": [
+        "BLK",
+        "BX",
+        "KKR",
+        "APO",
+        "TROW"
+      ],
+      "保险-财产险 P&C Insurance": [
+        "PGR",
+        "TRV",
+        "ALL",
+        "CB",
+        "AIG"
+      ],
+      "保险-人寿/健康 Life & Health": [
+        "MET",
+        "PRU",
+        "UNH",
+        "ELV",
+        "CI"
+      ],
+      "支付/信用卡网络 Payments": [
+        "V",
+        "MA",
+        "PYPL",
+        "FI",
+        "GPN"
+      ],
+      "交易所/金融数据 Exchanges & Data": [
+        "ICE",
+        "CME",
+        "NDAQ",
+        "CBOE",
+        "MSCI"
+      ],
+      "医疗-制药大厂 Big Pharma": [
+        "LLY",
+        "NVO",
+        "JNJ",
+        "MRK",
+        "PFE"
+      ],
+      "医疗-生物科技 Biotech": [
+        "VRTX",
+        "REGN",
+        "AMGN",
+        "GILD",
+        "BIIB"
+      ],
+      "医疗-基因编辑/罕见病 Gene Editing": [
+        "CRSP",
+        "NTLA",
+        "BEAM",
+        "RARE",
+        "SRPT"
+      ],
+      "医疗设备 MedTech": [
+        "ISRG",
+        "MDT",
+        "SYK",
+        "BSX",
+        "EW"
+      ],
+      "医疗保险 Health Insurers": [
+        "UNH",
+        "ELV",
+        "CI",
+        "HUM",
+        "CVS"
+      ],
+      "诊断/生命科学工具 Diagnostics": [
+        "TMO",
+        "DHR",
+        "A",
+        "ILMN",
+        "IQV"
+      ],
+      "消费-电商 E-commerce": [
+        "AMZN",
+        "MELI",
+        "JD",
+        "PDD",
+        "ETSY"
+      ],
+      "消费-社交媒体/数字广告 Social Ads": [
+        "META",
+        "GOOGL",
+        "PINS",
+        "SNAP",
+        "RDDT"
+      ],
+      "消费-流媒体/娱乐 Streaming": [
+        "NFLX",
+        "DIS",
+        "WBD",
+        "SPOT",
+        "LYV"
+      ],
+      "消费-游戏 Gaming": [
+        "EA",
+        "TTWO",
+        "RBLX",
+        "U",
+        "NTES"
+      ],
+      "消费-餐饮 Restaurants": [
+        "MCD",
+        "SBUX",
+        "CMG",
+        "YUM",
+        "DPZ"
+      ],
+      "消费-零售 Retail": [
+        "WMT",
+        "COST",
+        "TGT",
+        "TJX",
+        "ROST"
+      ],
+      "消费-服饰/奢侈品 Apparel & Luxury": [
+        "NKE",
+        "LULU",
+        "TPR",
+        "RL",
+        "DECK"
+      ],
+      "消费-美妆个护 Beauty & Personal": [
+        "EL",
+        "PG",
+        "COTY",
+        "ELF",
+        "KVUE"
+      ],
+      "航空 Airlines": [
+        "DAL",
+        "UAL",
+        "LUV",
+        "AAL",
+        "ALK"
+      ],
+      "铁路/物流 Rail & Logistics": [
+        "UNP",
+        "CSX",
+        "NSC",
+        "UPS",
+        "FDX"
+      ],
+      "汽车制造 Automakers": [
+        "TSLA",
+        "GM",
+        "F",
+        "TM",
+        "RIVN"
+      ],
+      "汽车零部件 Auto Parts": [
+        "APTV",
+        "BWA",
+        "LEA",
+        "ALV",
+        "GT"
+      ],
+      "工业自动化/机器人 Industrial Auto": [
+        "ROK",
+        "HON",
+        "EMR",
+        "PH",
+        "ETN"
+      ],
+      "农业机械 Agri Equipment": [
+        "DE",
+        "AGCO",
+        "CNHI",
+        "CAT",
+        "TTC"
+      ],
+      "化工 Chemicals": [
+        "LIN",
+        "APD",
+        "SHW",
+        "ECL",
+        "DD"
+      ],
+      "金属/矿业 Metals & Mining": [
+        "FCX",
+        "NEM",
+        "NUE",
+        "STLD",
+        "AA"
+      ],
+      "石油天然气-开采 Oil & Gas E&P": [
+        "XOM",
+        "CVX",
+        "COP",
+        "EOG",
+        "OXY"
+      ],
+      "油田服务 Oilfield Services": [
+        "SLB",
+        "HAL",
+        "BKR",
+        "FTI",
+        "NOV"
+      ],
+      "公用事业-电力 Electric Utilities": [
+        "NEE",
+        "DUK",
+        "SO",
+        "D",
+        "AEP"
+      ],
+      "公用事业-水务 Water Utilities": [
+        "AWK",
+        "WTRG",
+        "CWT"
+      ],
+      "电信 Telecom": [
+        "VZ",
+        "T",
+        "TMUS",
+        "CHTR",
+        "CMCSA"
+      ],
+      "传媒娱乐 Media": [
+        "DIS",
+        "WBD",
+        "PSKY",
+        "FOXA",
+        "LYV"
+      ],
+      "酒店/博彩 Hotels & Gaming": [
+        "MAR",
+        "HLT",
+        "MGM",
+        "LVS",
+        "WYNN"
+      ],
+      "旅游预订 Online Travel": [
+        "BKNG",
+        "EXPE",
+        "ABNB",
+        "TRIP",
+        "TCOM"
+      ],
+      "REIT-住宅 Residential REIT": [
+        "AVB",
+        "EQR",
+        "ESS",
+        "MAA",
+        "INVH"
+      ],
+      "REIT-工业/数据中心 Industrial REIT": [
+        "PLD",
+        "EQIX",
+        "DLR",
+        "AMT",
+        "CCI"
+      ],
+      "住宅建筑 Homebuilders": [
+        "DHI",
+        "LEN",
+        "PHM",
+        "NVR",
+        "TOL"
+      ],
+      "太阳能/新能源 Solar & Clean Energy": [
+        "FSLR",
+        "ENPH",
+        "SEDG",
+        "RUN",
+        "NEE"
+      ],
+      "电池/储能 Battery & Storage": [
+        "TSLA",
+        "ALB",
+        "PLUG",
+        "BE",
+        "FLNC"
+      ],
+      "核能/电力需求 Nuclear & Power": [
+        "GEV",
+        "VST",
+        "TLN",
+        "NRG",
+        "CEG"
+      ],
+      "太空/卫星 Space & Satellite": [
+        "RKLB",
+        "ASTS",
+        "LUNR",
+        "IRDM",
+        "LMT"
+      ],
+      "国防军工 Defense": [
+        "LMT",
+        "RTX",
+        "NOC",
+        "GD",
+        "LHX"
+      ],
+      "量子计算 Quantum Computing": [
+        "IONQ",
+        "RGTI",
+        "QBTS",
+        "IBM",
+        "ARQQ"
+      ],
+      "金融科技/新兴支付 Fintech": [
+        "XYZ",
+        "PYPL",
+        "AFRM",
+        "SOFI",
+        "COIN"
+      ]
+    }
+  },
+  "growth": {
+    "label": "Growth Universe 成长池",
+    "stars": 5,
+    "description": "13个成长赛道",
+    "status": "pending_export",
+    "expected_count": 226,
+    "known_limitation": "VectorAlpha说明文档已如实标注：目标500~800只，尚未达到",
+    "note": "上一版复制的是GROWTH_THEMES的变量名索引，不是实际股票代码。请回symbolLists.js里搜下面source_vars列出的16个变量名，把每个变量对应的实际数组内容填进tickers里，3个主题需要合并2个变量(spread)",
+    "themes": {
+      "AI/半导体 AI & Semiconductors": {
+        "source_vars": [
+          "GROWTH_AI_SEMIS"
+        ],
+        "tickers": []
+      },
+      "软件/SaaS Software & SaaS": {
+        "source_vars": [
+          "GROWTH_SOFTWARE"
+        ],
+        "tickers": []
+      },
+      "网络安全 Cybersecurity": {
+        "source_vars": [
+          "GROWTH_CYBER"
+        ],
+        "tickers": []
+      },
+      "金融科技 Fintech": {
+        "source_vars": [
+          "GROWTH_FINTECH"
+        ],
+        "tickers": []
+      },
+      "互联网/电商 Internet & E-commerce": {
+        "source_vars": [
+          "GROWTH_INTERNET"
+        ],
+        "tickers": []
+      },
+      "媒体/社交 Media & Social": {
+        "source_vars": [
+          "GROWTH_MEDIA_SOCIAL"
+        ],
+        "tickers": []
+      },
+      "生物科技 Biotech": {
+        "source_vars": [
+          "GROWTH_BIOTECH",
+          "GROWTH_BIOTECH_EXTRA"
+        ],
+        "tickers": []
+      },
+      "消费品牌 Consumer Brands": {
+        "source_vars": [
+          "GROWTH_CONSUMER_BRANDS"
+        ],
+        "tickers": []
+      },
+      "新能源车/清洁能源 EV & Clean Energy": {
+        "source_vars": [
+          "GROWTH_EV_CLEAN"
+        ],
+        "tickers": []
+      },
+      "核能/电力 Nuclear & Power": {
+        "source_vars": [
+          "GROWTH_NUCLEAR_POWER",
+          "GROWTH_URANIUM_EXTRA"
+        ],
+        "tickers": []
+      },
+      "太空/国防/量子计算 Space/Defense/Quantum": {
+        "source_vars": [
+          "GROWTH_SPACE_DEFENSE_QUANTUM",
+          "GROWTH_SPACE_EXTRA"
+        ],
+        "tickers": []
+      },
+      "工业 Industrial": {
+        "source_vars": [
+          "GROWTH_INDUSTRIAL_MISC"
+        ],
+        "tickers": []
+      },
+      "医疗健康 Healthcare Misc": {
+        "source_vars": [
+          "GROWTH_HEALTHCARE_MISC"
+        ],
+        "tickers": []
+      }
+    }
+  },
+  "watchlist": {
+    "label": "Watchlist 观察池",
+    "stars": 3,
+    "fixed_content": false,
+    "note": "本质是用户实时维护的自选股，不固定内容，只固定字段格式",
+    "schema": {
+      "symbol": "string",
+      "added_date": "YYYY-MM-DD",
+      "note": "string(可选)",
+      "tag": "string(可选)"
+    }
+  },
+  "portfolio": {
+    "label": "Portfolio 持仓池",
+    "stars": 5,
+    "fixed_content": false,
+    "note": "当前实盘持仓，每天都在变，不固定内容，只固定字段格式",
+    "schema": {
+      "symbol": "string",
+      "qty": "number",
+      "cost": "number",
+      "buy_date": "YYYY-MM-DD",
+      "custom_stop": "number(可选)",
+      "target": "number(可选)",
+      "broker_tag": "string(可选)"
+    }
+  },
+  "custom": {
+    "label": "Custom Universe 自定义池",
+    "fixed_content": false,
+    "note": "一次性手动输入，不持久化，只固定输入格式",
+    "schema": {
+      "input_format": "逗号或空格分隔的代码列表"
+    }
+  }
+}
