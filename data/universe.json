@@ -1,6 +1,6 @@
 {
   "meta": {
-    "version": "1.1",
+    "version": "1.2",
     "generated_at": "2026-07-30",
     "verified_by": "claude + web_search 核实 Dow30 最新成分；claude 校验并修复用户提交版本的JSON语法错误",
     "single_source_of_truth": "VectorAlpha Web 的 js/data/symbolLists.js（该仓库为唯一权威来源，其余工具通过 fetch 本文件同步，不再各自维护硬编码清单）",
@@ -658,93 +658,291 @@
     "label": "Growth Universe 成长池",
     "stars": 5,
     "description": "13个成长赛道",
-    "status": "pending_export",
+    "status": "complete",
     "expected_count": 226,
     "known_limitation": "VectorAlpha说明文档已如实标注：目标500~800只，尚未达到",
-    "note": "上一版复制的是GROWTH_THEMES的变量名索引，不是实际股票代码。请回symbolLists.js里搜下面source_vars列出的16个变量名，把每个变量对应的实际数组内容填进tickers里，3个主题需要合并2个变量(spread)",
+    "note": "226只，用户直接提供完整清单核对通过(与expected_count完全一致，无重复)。13个主题分组：前195只按原始顺序分块清晰，后31只(半导体/生物科技/太空通信/铀矿/旅游软件消费等收尾部分)由claude按业务逻辑归类，非从源码验证，如有归类错误请指出",
     "themes": {
       "AI/半导体 AI & Semiconductors": {
-        "source_vars": [
-          "GROWTH_AI_SEMIS"
-        ],
-        "tickers": []
+        "tickers": [
+          "NVDA",
+          "AMD",
+          "AVGO",
+          "PLTR",
+          "SMCI",
+          "MRVL",
+          "ARM",
+          "ALAB",
+          "CRDO",
+          "ANET",
+          "VRT",
+          "MOD",
+          "ETN",
+          "MU",
+          "QCOM",
+          "ON",
+          "MPWR",
+          "TER",
+          "LRCX",
+          "AMAT",
+          "SWKS",
+          "QRVO",
+          "ENTG",
+          "COHR",
+          "LSCC",
+          "MCHP",
+          "ADI",
+          "TXN"
+        ]
       },
       "软件/SaaS Software & SaaS": {
-        "source_vars": [
-          "GROWTH_SOFTWARE"
-        ],
-        "tickers": []
+        "tickers": [
+          "MSFT",
+          "CRM",
+          "NOW",
+          "WDAY",
+          "SNOW",
+          "DDOG",
+          "NET",
+          "MDB",
+          "ESTC",
+          "CFLT",
+          "GTLB",
+          "FROG",
+          "PATH",
+          "BILL",
+          "HUBS",
+          "ZM",
+          "OKTA",
+          "DOCU",
+          "TWLO",
+          "PAYC",
+          "PCTY",
+          "VEEV",
+          "TEAM",
+          "MNDY",
+          "ASAN",
+          "ADBE",
+          "INTU",
+          "SHOP",
+          "TTD",
+          "APP",
+          "U",
+          "RBLX",
+          "DBX",
+          "ZI",
+          "NICE",
+          "DOCN"
+        ]
       },
       "网络安全 Cybersecurity": {
-        "source_vars": [
-          "GROWTH_CYBER"
-        ],
-        "tickers": []
+        "tickers": [
+          "CRWD",
+          "PANW",
+          "ZS",
+          "FTNT",
+          "S",
+          "CYBR",
+          "QLYS",
+          "TENB"
+        ]
       },
       "金融科技 Fintech": {
-        "source_vars": [
-          "GROWTH_FINTECH"
-        ],
-        "tickers": []
+        "tickers": [
+          "V",
+          "MA",
+          "PYPL",
+          "FI",
+          "GPN",
+          "XYZ",
+          "SOFI",
+          "AFRM",
+          "UPST",
+          "COIN",
+          "HOOD",
+          "MSTR",
+          "MARA",
+          "RIOT",
+          "CLSK"
+        ]
       },
       "互联网/电商 Internet & E-commerce": {
-        "source_vars": [
-          "GROWTH_INTERNET"
-        ],
-        "tickers": []
+        "tickers": [
+          "AMZN",
+          "MELI",
+          "JD",
+          "PDD",
+          "ETSY",
+          "BABA",
+          "BIDU",
+          "W",
+          "CHWY",
+          "CPNG",
+          "SE",
+          "GRAB",
+          "DASH",
+          "UBER",
+          "ABNB",
+          "LYFT",
+          "BKNG",
+          "EXPE",
+          "TCOM"
+        ]
       },
       "媒体/社交 Media & Social": {
-        "source_vars": [
-          "GROWTH_MEDIA_SOCIAL"
-        ],
-        "tickers": []
+        "tickers": [
+          "META",
+          "GOOGL",
+          "GOOG",
+          "PINS",
+          "SNAP",
+          "RDDT",
+          "NFLX",
+          "DIS",
+          "SPOT",
+          "EA",
+          "TTWO",
+          "NTES",
+          "WBD",
+          "LYV"
+        ]
       },
       "生物科技 Biotech": {
-        "source_vars": [
-          "GROWTH_BIOTECH",
-          "GROWTH_BIOTECH_EXTRA"
-        ],
-        "tickers": []
+        "tickers": [
+          "VRTX",
+          "REGN",
+          "LLY",
+          "NVO",
+          "ARGX",
+          "ALNY",
+          "NBIX",
+          "EXAS",
+          "DXCM",
+          "PODD",
+          "INSP",
+          "CRSP",
+          "NTLA",
+          "BEAM",
+          "RARE",
+          "SRPT",
+          "MRNA",
+          "BNTX",
+          "ISRG",
+          "ARWR",
+          "IONS",
+          "VKTX",
+          "RXRX",
+          "TWST"
+        ]
       },
       "消费品牌 Consumer Brands": {
-        "source_vars": [
-          "GROWTH_CONSUMER_BRANDS"
-        ],
-        "tickers": []
+        "tickers": [
+          "CELH",
+          "ELF",
+          "BROS",
+          "CAVA",
+          "SG",
+          "WING",
+          "SHAK",
+          "PLNT",
+          "LULU",
+          "ONON",
+          "DECK",
+          "CROX",
+          "BIRK",
+          "DUOL",
+          "OLLI",
+          "FIVE",
+          "ULTA",
+          "DKNG",
+          "CVNA",
+          "BOOT",
+          "YETI"
+        ]
       },
       "新能源车/清洁能源 EV & Clean Energy": {
-        "source_vars": [
-          "GROWTH_EV_CLEAN"
-        ],
-        "tickers": []
+        "tickers": [
+          "TSLA",
+          "RIVN",
+          "LCID",
+          "NIO",
+          "LI",
+          "XPEV",
+          "ENPH",
+          "SEDG",
+          "FSLR",
+          "RUN",
+          "PLUG",
+          "BE",
+          "FLNC",
+          "ALB"
+        ]
       },
       "核能/电力 Nuclear & Power": {
-        "source_vars": [
-          "GROWTH_NUCLEAR_POWER",
-          "GROWTH_URANIUM_EXTRA"
-        ],
-        "tickers": []
+        "tickers": [
+          "CEG",
+          "GEV",
+          "VST",
+          "TLN",
+          "NRG",
+          "OKLO",
+          "SMR",
+          "LEU",
+          "CCJ",
+          "UUUU",
+          "UEC",
+          "DNN"
+        ]
       },
       "太空/国防/量子计算 Space/Defense/Quantum": {
-        "source_vars": [
-          "GROWTH_SPACE_DEFENSE_QUANTUM",
-          "GROWTH_SPACE_EXTRA"
-        ],
-        "tickers": []
+        "tickers": [
+          "RKLB",
+          "ASTS",
+          "LUNR",
+          "IRDM",
+          "LMT",
+          "NOC",
+          "IONQ",
+          "RGTI",
+          "QBTS",
+          "ARQQ",
+          "KTOS",
+          "AXON",
+          "RDW",
+          "SATS",
+          "VSAT",
+          "GSAT",
+          "TSAT",
+          "SPIR"
+        ]
       },
       "工业 Industrial": {
-        "source_vars": [
-          "GROWTH_INDUSTRIAL_MISC"
-        ],
-        "tickers": []
+        "tickers": [
+          "CAT",
+          "DE",
+          "HON",
+          "GE",
+          "TDG",
+          "HEI",
+          "ROK"
+        ]
       },
       "医疗健康 Healthcare Misc": {
-        "source_vars": [
-          "GROWTH_HEALTHCARE_MISC"
-        ],
-        "tickers": []
+        "tickers": [
+          "TDOC",
+          "HIMS",
+          "OSCR",
+          "GH",
+          "NVCR",
+          "TMDX",
+          "PEN",
+          "DOCS",
+          "HQY",
+          "GDRX"
+        ]
       }
-    }
+    },
+    "actual_count": 226
   },
   "watchlist": {
     "label": "Watchlist 观察池",
