@@ -1,5 +1,32 @@
 [
   {
+    "date": "2026-08-17",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 17,
+    "tickers": [
+      "ARES",
+      "ANET",
+      "AVY",
+      "CRL",
+      "DHR",
+      "XOM",
+      "FCX",
+      "IT",
+      "JCI",
+      "LDOS",
+      "NEM",
+      "PH",
+      "PFE",
+      "STX",
+      "SBUX",
+      "SYF",
+      "VRTX"
+    ]
+  },
+  {
     "date": "2026-08-14",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
