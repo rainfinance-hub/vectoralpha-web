@@ -1,5 +1,35 @@
 [
   {
+    "date": "2026-08-18",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 20,
+    "tickers": [
+      "AXON",
+      "BX",
+      "BNY",
+      "SCHW",
+      "C",
+      "CRWD",
+      "DELL",
+      "HSIC",
+      "HPQ",
+      "KEYS",
+      "KMI",
+      "LRCX",
+      "MS",
+      "MSI",
+      "PANW",
+      "PH",
+      "PCG",
+      "SWKS",
+      "SMCI",
+      "TER"
+    ]
+  },
+  {
     "date": "2026-08-17",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
