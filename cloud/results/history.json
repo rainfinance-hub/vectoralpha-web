@@ -1,5 +1,32 @@
 [
   {
+    "date": "2026-08-19",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 17,
+    "tickers": [
+      "BKR",
+      "BBY",
+      "BX",
+      "BMY",
+      "CVNA",
+      "CRL",
+      "CLX",
+      "EQIX",
+      "EXPD",
+      "JNJ",
+      "MU",
+      "PLTR",
+      "RVTY",
+      "SLB",
+      "VLO",
+      "WDAY",
+      "MDB"
+    ]
+  },
+  {
     "date": "2026-08-18",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
