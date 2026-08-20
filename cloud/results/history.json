@@ -1,5 +1,27 @@
 [
   {
+    "date": "2026-08-20",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 12,
+    "tickers": [
+      "APA",
+      "AVY",
+      "DXCM",
+      "EOG",
+      "EQIX",
+      "OXY",
+      "OMC",
+      "PSKY",
+      "SNDK",
+      "NOW",
+      "SMCI",
+      "WDAY"
+    ]
+  },
+  {
     "date": "2026-08-19",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
