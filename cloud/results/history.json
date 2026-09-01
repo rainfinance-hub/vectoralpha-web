@@ -1,5 +1,37 @@
 [
   {
+    "date": "2026-09-01",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 22,
+    "tickers": [
+      "ADBE",
+      "APD",
+      "AAPL",
+      "XYZ",
+      "CVNA",
+      "CTSH",
+      "FCX",
+      "GILD",
+      "GDDY",
+      "HAL",
+      "ICE",
+      "IQV",
+      "KDP",
+      "LITE",
+      "MU",
+      "MRNA",
+      "MOS",
+      "OKE",
+      "PAYX",
+      "RVTY",
+      "HOOD",
+      "VRTX"
+    ]
+  },
+  {
     "date": "2026-08-29",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
