@@ -1,5 +1,29 @@
 [
   {
+    "date": "2026-09-02",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 14,
+    "tickers": [
+      "APD",
+      "APH",
+      "CMG",
+      "DVN",
+      "GEN",
+      "HAL",
+      "MRNA",
+      "OKE",
+      "PSKY",
+      "CRM",
+      "SLB",
+      "VEEV",
+      "VRSN",
+      "WMB"
+    ]
+  },
+  {
     "date": "2026-09-01",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
