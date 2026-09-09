@@ -1,5 +1,24 @@
 [
   {
+    "date": "2026-09-09",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 9,
+    "tickers": [
+      "BG",
+      "CAH",
+      "CF",
+      "HPQ",
+      "HUM",
+      "MU",
+      "PFG",
+      "RSG",
+      "WFC"
+    ]
+  },
+  {
     "date": "2026-09-08",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
