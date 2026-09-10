@@ -1,5 +1,19 @@
 [
   {
+    "date": "2026-09-10",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 4,
+    "tickers": [
+      "BRK-B",
+      "DE",
+      "ELV",
+      "WFC"
+    ]
+  },
+  {
     "date": "2026-09-09",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
