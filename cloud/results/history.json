@@ -1,5 +1,24 @@
 [
   {
+    "date": "2026-09-11",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 9,
+    "tickers": [
+      "AMD",
+      "AAPL",
+      "CVX",
+      "C",
+      "CTVA",
+      "ELV",
+      "FFIV",
+      "HCA",
+      "OKE"
+    ]
+  },
+  {
     "date": "2026-09-10",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
