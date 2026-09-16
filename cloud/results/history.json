@@ -1,5 +1,21 @@
 [
   {
+    "date": "2026-09-16",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 6,
+    "tickers": [
+      "AES",
+      "DELL",
+      "HCA",
+      "MRVL",
+      "TRV",
+      "VLO"
+    ]
+  },
+  {
     "date": "2026-09-15",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
