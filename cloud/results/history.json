@@ -1,5 +1,29 @@
 [
   {
+    "date": "2026-09-18",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 14,
+    "tickers": [
+      "AAPL",
+      "ANET",
+      "BRK-B",
+      "ELV",
+      "FFIV",
+      "FTNT",
+      "HPE",
+      "HPQ",
+      "MPC",
+      "PANW",
+      "PSX",
+      "TMO",
+      "VLO",
+      "ILMN"
+    ]
+  },
+  {
     "date": "2026-09-17",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
