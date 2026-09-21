@@ -1,5 +1,22 @@
 [
   {
+    "date": "2026-09-21",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 7,
+    "tickers": [
+      "AES",
+      "HPE",
+      "LLY",
+      "NTAP",
+      "PANW",
+      "RVTY",
+      "WAT"
+    ]
+  },
+  {
     "date": "2026-09-18",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
