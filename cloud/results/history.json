@@ -1,5 +1,26 @@
 [
   {
+    "date": "2026-09-22",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 11,
+    "tickers": [
+      "ANET",
+      "COIN",
+      "P",
+      "FTNT",
+      "HCA",
+      "IBKR",
+      "PANW",
+      "RVTY",
+      "SWKS",
+      "TMO",
+      "VTRS"
+    ]
+  },
+  {
     "date": "2026-09-21",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
