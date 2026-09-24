@@ -1,5 +1,34 @@
 [
   {
+    "date": "2026-09-24",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 19,
+    "tickers": [
+      "ABBV",
+      "AME",
+      "APH",
+      "ANET",
+      "BE",
+      "COIN",
+      "DHR",
+      "ETN",
+      "MTD",
+      "MU",
+      "NDSN",
+      "NVDA",
+      "PLTR",
+      "QCOM",
+      "SMCI",
+      "TER",
+      "WBD",
+      "WAT",
+      "MDB"
+    ]
+  },
+  {
     "date": "2026-09-23",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
