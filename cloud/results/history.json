@@ -1,5 +1,30 @@
 [
   {
+    "date": "2026-09-29",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 15,
+    "tickers": [
+      "AES",
+      "AME",
+      "APH",
+      "CRWD",
+      "EMR",
+      "P",
+      "FTNT",
+      "GRMN",
+      "HPE",
+      "ILMN",
+      "JCI",
+      "PFE",
+      "STX",
+      "TMO",
+      "ZBRA"
+    ]
+  },
+  {
     "date": "2026-09-25",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
