@@ -1,5 +1,23 @@
 [
   {
+    "date": "2026-10-03",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 8,
+    "tickers": [
+      "AMAT",
+      "CRL",
+      "FTNT",
+      "IEX",
+      "MSFT",
+      "PANW",
+      "RVTY",
+      "VTRS"
+    ]
+  },
+  {
     "date": "2026-10-02",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
