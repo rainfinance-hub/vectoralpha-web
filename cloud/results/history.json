@@ -1,5 +1,23 @@
 [
   {
+    "date": "2026-10-07",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 8,
+    "tickers": [
+      "COHR",
+      "DDOG",
+      "ECHO",
+      "MCK",
+      "MPWR",
+      "PLTR",
+      "TSLA",
+      "VLTO"
+    ]
+  },
+  {
     "date": "2026-10-06",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
