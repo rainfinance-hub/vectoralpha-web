@@ -1,5 +1,36 @@
 [
   {
+    "date": "2026-10-09",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 518,
+    "triggered": 21,
+    "tickers": [
+      "AMGN",
+      "ADI",
+      "CRL",
+      "COST",
+      "DDOG",
+      "EMR",
+      "FAST",
+      "GEV",
+      "IEX",
+      "ISRG",
+      "JCI",
+      "MRVL",
+      "MCK",
+      "MTD",
+      "NDSN",
+      "PWR",
+      "RMD",
+      "TEL",
+      "TSLA",
+      "TXN",
+      "TRMB"
+    ]
+  },
+  {
     "date": "2026-10-08",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
