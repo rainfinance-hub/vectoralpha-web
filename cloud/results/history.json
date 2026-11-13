@@ -1,5 +1,28 @@
 [
   {
+    "date": "2026-11-13",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 519,
+    "triggered": 13,
+    "tickers": [
+      "BF-B",
+      "CDNS",
+      "DPZ",
+      "EW",
+      "HUM",
+      "IEX",
+      "JKHY",
+      "J",
+      "MPWR",
+      "NXPI",
+      "PAYX",
+      "TXN",
+      "TSN"
+    ]
+  },
+  {
     "date": "2026-11-12",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
