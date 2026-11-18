@@ -1,5 +1,29 @@
 [
   {
+    "date": "2026-11-18",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 519,
+    "triggered": 14,
+    "tickers": [
+      "AAPL",
+      "BAX",
+      "CVNA",
+      "DRI",
+      "DPZ",
+      "HUM",
+      "KR",
+      "MPWR",
+      "MSI",
+      "OMC",
+      "REGN",
+      "TRGP",
+      "TGT",
+      "TSCO"
+    ]
+  },
+  {
     "date": "2026-11-17",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
