@@ -1,5 +1,32 @@
 [
   {
+    "date": "2026-11-19",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 519,
+    "triggered": 17,
+    "tickers": [
+      "CLX",
+      "KO",
+      "DPZ",
+      "EQIX",
+      "ES",
+      "FE",
+      "GEN",
+      "KHC",
+      "MCK",
+      "MPWR",
+      "DGX",
+      "SPG",
+      "LUV",
+      "STE",
+      "TROW",
+      "TRGP",
+      "WELL"
+    ]
+  },
+  {
     "date": "2026-11-18",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
