@@ -1,5 +1,24 @@
 [
   {
+    "date": "2026-11-20",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 519,
+    "triggered": 9,
+    "tickers": [
+      "ALL",
+      "COST",
+      "DPZ",
+      "HRL",
+      "MCK",
+      "TGT",
+      "TSCO",
+      "TSN",
+      "WRB"
+    ]
+  },
+  {
     "date": "2026-11-19",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
