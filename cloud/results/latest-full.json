@@ -99,9 +99,9 @@
   },
   {
     "sym": "ABT",
-    "price": 108,
+    "price": 108.02,
     "composite": {
-      "score": 48,
+      "score": 46,
       "breakdown": [
         {
           "layer": "market",
@@ -127,9 +127,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 60,
+          "score": 53,
           "weight": 37.5,
-          "contribution": 22.5
+          "contribution": 19.9
         },
         {
           "layer": "quality",
@@ -197,7 +197,7 @@
   },
   {
     "sym": "ACN",
-    "price": 240.49000549316406,
+    "price": 240.515,
     "composite": {
       "score": 56,
       "breakdown": [
@@ -246,7 +246,7 @@
   },
   {
     "sym": "ADBE",
-    "price": 232.8300018310547,
+    "price": 232.755,
     "composite": {
       "score": 18,
       "breakdown": [
@@ -291,11 +291,11 @@
       "passCount": 0,
       "allPass": false
     },
-    "rsPercentile": 21
+    "rsPercentile": 20
   },
   {
     "sym": "AMD",
-    "price": 406.0299987792969,
+    "price": 405.76,
     "composite": {
       "score": 40,
       "breakdown": [
@@ -491,7 +491,7 @@
   },
   {
     "sym": "APD",
-    "price": 314.260009765625,
+    "price": 314.59,
     "composite": {
       "score": 49,
       "breakdown": [
@@ -785,9 +785,9 @@
   },
   {
     "sym": "ALLE",
-    "price": 192.29,
+    "price": 192.1999969482422,
     "composite": {
-      "score": 61,
+      "score": 75,
       "breakdown": [
         {
           "layer": "market",
@@ -806,9 +806,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 67,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 29.3
         },
         {
           "layer": "institutional",
@@ -827,16 +827,16 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 2,
       "allPass": false
     },
     "rsPercentile": 96
   },
   {
     "sym": "LNT",
-    "price": 73.13999938964844,
+    "price": 73.14,
     "composite": {
-      "score": 43,
+      "score": 58,
       "breakdown": [
         {
           "layer": "market",
@@ -855,9 +855,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 67,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 29.3
         },
         {
           "layer": "institutional",
@@ -876,7 +876,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 2,
       "allPass": false
     },
     "rsPercentile": 75
@@ -1128,9 +1128,9 @@
   },
   {
     "sym": "AMCR",
-    "price": 45.41999816894531,
+    "price": 45.42,
     "composite": {
-      "score": 47,
+      "score": 49,
       "breakdown": [
         {
           "layer": "market",
@@ -1156,9 +1156,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 57,
+          "score": 63,
           "weight": 37.5,
-          "contribution": 21.4
+          "contribution": 23.6
         },
         {
           "layer": "quality",
@@ -1277,7 +1277,7 @@
     "sym": "AXP",
     "price": 312.52,
     "composite": {
-      "score": 37,
+      "score": 22,
       "breakdown": [
         {
           "layer": "market",
@@ -1296,9 +1296,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 0,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 0
         },
         {
           "layer": "institutional",
@@ -1317,7 +1317,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 0,
       "allPass": false
     },
     "rsPercentile": 43
@@ -1816,7 +1816,7 @@
     "sym": "APO",
     "price": 120.51,
     "composite": {
-      "score": 37,
+      "score": 23,
       "breakdown": [
         {
           "layer": "market",
@@ -1835,9 +1835,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 0,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 0
         },
         {
           "layer": "institutional",
@@ -1856,7 +1856,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 0,
       "allPass": false
     },
     "rsPercentile": 34
@@ -2206,7 +2206,7 @@
   },
   {
     "sym": "ANET",
-    "price": 163.87,
+    "price": 163.99000549316406,
     "composite": {
       "score": 38,
       "breakdown": [
@@ -2251,7 +2251,7 @@
       "passCount": 1,
       "allPass": false
     },
-    "rsPercentile": 21
+    "rsPercentile": 22
   },
   {
     "sym": "AJG",
@@ -2402,9 +2402,9 @@
   },
   {
     "sym": "ATO",
-    "price": 173.27,
+    "price": 173.25999450683594,
     "composite": {
-      "score": 43,
+      "score": 57,
       "breakdown": [
         {
           "layer": "market",
@@ -2423,9 +2423,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 67,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 29.3
         },
         {
           "layer": "institutional",
@@ -2444,7 +2444,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 2,
       "allPass": false
     },
     "rsPercentile": 68
@@ -2598,9 +2598,9 @@
   },
   {
     "sym": "AVY",
-    "price": 191.45,
+    "price": 191.63999938964844,
     "composite": {
-      "score": 54,
+      "score": 52,
       "breakdown": [
         {
           "layer": "market",
@@ -2626,9 +2626,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 75,
+          "score": 69,
           "weight": 37.5,
-          "contribution": 28.1
+          "contribution": 25.9
         },
         {
           "layer": "quality",
@@ -2643,7 +2643,7 @@
       "passCount": 1,
       "allPass": false
     },
-    "rsPercentile": 76
+    "rsPercentile": 77
   },
   {
     "sym": "AXON",
@@ -2894,7 +2894,7 @@
     "sym": "BDX",
     "price": 221.28,
     "composite": {
-      "score": 58,
+      "score": 73,
       "breakdown": [
         {
           "layer": "market",
@@ -2913,9 +2913,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 67,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 29.3
         },
         {
           "layer": "institutional",
@@ -2934,7 +2934,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 2,
       "allPass": false
     },
     "rsPercentile": 94
@@ -3137,7 +3137,7 @@
   },
   {
     "sym": "BLK",
-    "price": 1141.8599853515625,
+    "price": 1141.06,
     "composite": {
       "score": 62,
       "breakdown": [
@@ -3382,7 +3382,7 @@
   },
   {
     "sym": "BA",
-    "price": 164.515,
+    "price": 164.52999877929688,
     "composite": {
       "score": 30,
       "breakdown": [
@@ -3578,9 +3578,9 @@
   },
   {
     "sym": "AVGO",
-    "price": 300.61,
+    "price": 300.8599853515625,
     "composite": {
-      "score": 31,
+      "score": 29,
       "breakdown": [
         {
           "layer": "market",
@@ -3606,9 +3606,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 15,
+          "score": 9,
           "weight": 37.5,
-          "contribution": 5.6
+          "contribution": 3.4
         },
         {
           "layer": "quality",
@@ -3627,7 +3627,7 @@
   },
   {
     "sym": "BR",
-    "price": 187.02,
+    "price": 187.13999938964844,
     "composite": {
       "score": 62,
       "breakdown": [
@@ -3823,7 +3823,7 @@
   },
   {
     "sym": "BXP",
-    "price": 64.025,
+    "price": 64.0199966430664,
     "composite": {
       "score": 27,
       "breakdown": [
@@ -4070,7 +4070,7 @@
     "sym": "CAH",
     "price": 283.05,
     "composite": {
-      "score": 73,
+      "score": 58,
       "breakdown": [
         {
           "layer": "market",
@@ -4089,9 +4089,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 67,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 29.3
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -4110,7 +4110,7 @@
       ]
     },
     "resonance": {
-      "passCount": 2,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 96
@@ -4362,7 +4362,7 @@
   },
   {
     "sym": "CBOE",
-    "price": 351.79998779296875,
+    "price": 352.51,
     "composite": {
       "score": 55,
       "breakdown": [
@@ -4558,7 +4558,7 @@
   },
   {
     "sym": "CNC",
-    "price": 64.73999786376953,
+    "price": 64.735,
     "composite": {
       "score": 28,
       "breakdown": [
@@ -4854,7 +4854,7 @@
     "sym": "CVX",
     "price": 210.99,
     "composite": {
-      "score": 52,
+      "score": 67,
       "breakdown": [
         {
           "layer": "market",
@@ -4873,9 +4873,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 67,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 29.3
         },
         {
           "layer": "institutional",
@@ -4894,7 +4894,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 2,
       "allPass": false
     },
     "rsPercentile": 72
@@ -5050,7 +5050,7 @@
     "sym": "CIEN",
     "price": 242.76,
     "composite": {
-      "score": 30,
+      "score": 15,
       "breakdown": [
         {
           "layer": "market",
@@ -5069,9 +5069,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 0,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 0
         },
         {
           "layer": "institutional",
@@ -5090,7 +5090,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 0,
       "allPass": false
     },
     "rsPercentile": 7
@@ -5391,7 +5391,7 @@
   },
   {
     "sym": "CLX",
-    "price": 110.92,
+    "price": 110.94000244140625,
     "composite": {
       "score": 48,
       "breakdown": [
@@ -5734,7 +5734,7 @@
   },
   {
     "sym": "CL",
-    "price": 99.66000366210938,
+    "price": 99.68,
     "composite": {
       "score": 57,
       "breakdown": [
@@ -5881,7 +5881,7 @@
   },
   {
     "sym": "COP",
-    "price": 135.02000427246094,
+    "price": 135,
     "composite": {
       "score": 49,
       "breakdown": [
@@ -5981,7 +5981,7 @@
     "sym": "STZ",
     "price": 139.95,
     "composite": {
-      "score": 44,
+      "score": 59,
       "breakdown": [
         {
           "layer": "market",
@@ -6000,9 +6000,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 67,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 29.3
         },
         {
           "layer": "institutional",
@@ -6021,7 +6021,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 2,
       "allPass": false
     },
     "rsPercentile": 74
@@ -6420,9 +6420,9 @@
   },
   {
     "sym": "CRWD",
-    "price": 209.3000030517578,
+    "price": 209.375,
     "composite": {
-      "score": 47,
+      "score": 45,
       "breakdown": [
         {
           "layer": "market",
@@ -6448,9 +6448,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 57,
+          "score": 51,
           "weight": 37.5,
-          "contribution": 21.4
+          "contribution": 19.1
         },
         {
           "layer": "quality",
@@ -6469,9 +6469,9 @@
   },
   {
     "sym": "CCI",
-    "price": 83.675,
+    "price": 83.62999725341797,
     "composite": {
-      "score": 48,
+      "score": 50,
       "breakdown": [
         {
           "layer": "market",
@@ -6497,9 +6497,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 59,
+          "score": 65,
           "weight": 37.5,
-          "contribution": 22.1
+          "contribution": 24.4
         },
         {
           "layer": "quality",
@@ -6514,7 +6514,7 @@
       "passCount": 1,
       "allPass": false
     },
-    "rsPercentile": 86
+    "rsPercentile": 85
   },
   {
     "sym": "CSX",
@@ -6812,7 +6812,7 @@
   },
   {
     "sym": "DVA",
-    "price": 162.77000427246094,
+    "price": 162.72,
     "composite": {
       "score": 23,
       "breakdown": [
@@ -7008,9 +7008,9 @@
   },
   {
     "sym": "DAL",
-    "price": 82.94999694824219,
+    "price": 82.97,
     "composite": {
-      "score": 52,
+      "score": 66,
       "breakdown": [
         {
           "layer": "market",
@@ -7029,9 +7029,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 67,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 29.3
         },
         {
           "layer": "institutional",
@@ -7050,7 +7050,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 2,
       "allPass": false
     },
     "rsPercentile": 63
@@ -7059,7 +7059,7 @@
     "sym": "DVN",
     "price": 42.47,
     "composite": {
-      "score": 32,
+      "score": 18,
       "breakdown": [
         {
           "layer": "market",
@@ -7078,9 +7078,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 0,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 0
         },
         {
           "layer": "institutional",
@@ -7099,7 +7099,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 0,
       "allPass": false
     },
     "rsPercentile": 34
@@ -8037,9 +8037,9 @@
   },
   {
     "sym": "EW",
-    "price": 106.36000061035156,
+    "price": 106.37,
     "composite": {
-      "score": 73,
+      "score": 75,
       "breakdown": [
         {
           "layer": "market",
@@ -8065,9 +8065,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 86,
+          "score": 93,
           "weight": 37.5,
-          "contribution": 32.2
+          "contribution": 34.9
         },
         {
           "layer": "quality",
@@ -8527,7 +8527,7 @@
   },
   {
     "sym": "ESS",
-    "price": 279.2099914550781,
+    "price": 279.56,
     "composite": {
       "score": 63,
       "breakdown": [
@@ -8572,7 +8572,7 @@
       "passCount": 2,
       "allPass": false
     },
-    "rsPercentile": 56
+    "rsPercentile": 57
   },
   {
     "sym": "EL",
@@ -9360,9 +9360,9 @@
   },
   {
     "sym": "FDX",
-    "price": 308.8699951171875,
+    "price": 308.83,
     "composite": {
-      "score": 43,
+      "score": 33,
       "breakdown": [
         {
           "layer": "market",
@@ -9388,9 +9388,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 45,
+          "score": 20,
           "weight": 37.5,
-          "contribution": 16.9
+          "contribution": 7.5
         },
         {
           "layer": "quality",
@@ -9409,7 +9409,7 @@
   },
   {
     "sym": "FDXF",
-    "price": 118.70999908447266,
+    "price": 118.605,
     "composite": {
       "score": 20,
       "breakdown": [
@@ -9752,7 +9752,7 @@
   },
   {
     "sym": "FLEX",
-    "price": 67.2300033569336,
+    "price": 67.28,
     "composite": {
       "score": 29,
       "breakdown": [
@@ -10095,9 +10095,9 @@
   },
   {
     "sym": "FCX",
-    "price": 48.54999923706055,
+    "price": 48.55,
     "composite": {
-      "score": 13,
+      "score": 28,
       "breakdown": [
         {
           "layer": "market",
@@ -10116,9 +10116,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 0,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 0
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -10137,7 +10137,7 @@
       ]
     },
     "resonance": {
-      "passCount": 0,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 8
@@ -10438,7 +10438,7 @@
   },
   {
     "sym": "GNRC",
-    "price": 203.99000549316406,
+    "price": 204.02,
     "composite": {
       "score": 37,
       "breakdown": [
@@ -10587,7 +10587,7 @@
     "sym": "GM",
     "price": 83.98,
     "composite": {
-      "score": 49,
+      "score": 64,
       "breakdown": [
         {
           "layer": "market",
@@ -10606,9 +10606,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 67,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 29.3
         },
         {
           "layer": "institutional",
@@ -10627,7 +10627,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 2,
       "allPass": false
     },
     "rsPercentile": 51
@@ -10683,9 +10683,9 @@
   },
   {
     "sym": "GILD",
-    "price": 176.74000549316406,
+    "price": 176.685,
     "composite": {
-      "score": 72,
+      "score": 74,
       "breakdown": [
         {
           "layer": "market",
@@ -10711,9 +10711,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 84,
+          "score": 90,
           "weight": 37.5,
-          "contribution": 31.5
+          "contribution": 33.7
         },
         {
           "layer": "quality",
@@ -10728,7 +10728,7 @@
       "passCount": 2,
       "allPass": false
     },
-    "rsPercentile": 96
+    "rsPercentile": 95
   },
   {
     "sym": "GPN",
@@ -10830,7 +10830,7 @@
   },
   {
     "sym": "GDDY",
-    "price": 105.13999938964844,
+    "price": 105.19,
     "composite": {
       "score": 53,
       "breakdown": [
@@ -11173,7 +11173,7 @@
   },
   {
     "sym": "HSIC",
-    "price": 88.7300033569336,
+    "price": 88.7,
     "composite": {
       "score": 66,
       "breakdown": [
@@ -11222,7 +11222,7 @@
   },
   {
     "sym": "HSY",
-    "price": 182.57000732421875,
+    "price": 182.575,
     "composite": {
       "score": 56,
       "breakdown": [
@@ -11763,7 +11763,7 @@
     "sym": "HUM",
     "price": 406.43,
     "composite": {
-      "score": 63,
+      "score": 49,
       "breakdown": [
         {
           "layer": "market",
@@ -11782,9 +11782,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 67,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 29.3
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -11803,7 +11803,7 @@
       ]
     },
     "resonance": {
-      "passCount": 2,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 67
@@ -12006,9 +12006,9 @@
   },
   {
     "sym": "IDXX",
-    "price": 709.4600219726562,
+    "price": 709.55,
     "composite": {
-      "score": 72,
+      "score": 57,
       "breakdown": [
         {
           "layer": "market",
@@ -12027,9 +12027,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 67,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 29.3
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -12048,7 +12048,7 @@
       ]
     },
     "resonance": {
-      "passCount": 2,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 99
@@ -12496,7 +12496,7 @@
   },
   {
     "sym": "IP",
-    "price": 32.05,
+    "price": 32.08000183105469,
     "composite": {
       "score": 13,
       "breakdown": [
@@ -13380,7 +13380,7 @@
     "sym": "KIM",
     "price": 26.04,
     "composite": {
-      "score": 71,
+      "score": 56,
       "breakdown": [
         {
           "layer": "market",
@@ -13399,9 +13399,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 67,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 29.3
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -13420,7 +13420,7 @@
       ]
     },
     "resonance": {
-      "passCount": 2,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 81
@@ -14260,7 +14260,7 @@
   },
   {
     "sym": "LOW",
-    "price": 235.69,
+    "price": 235.64999389648438,
     "composite": {
       "score": 47,
       "breakdown": [
@@ -14458,7 +14458,7 @@
     "sym": "MTB",
     "price": 215.3,
     "composite": {
-      "score": 24,
+      "score": 38,
       "breakdown": [
         {
           "layer": "market",
@@ -14477,9 +14477,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 0,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 0
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -14498,7 +14498,7 @@
       ]
     },
     "resonance": {
-      "passCount": 0,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 34
@@ -14554,58 +14554,9 @@
   },
   {
     "sym": "MAR",
-    "price": 415.99,
+    "price": 415.7699890136719,
     "composite": {
-      "score": 73,
-      "breakdown": [
-        {
-          "layer": "market",
-          "available": true,
-          "score": 60,
-          "weight": 18.7,
-          "contribution": 11.2
-        },
-        {
-          "layer": "sector",
-          "available": false,
-          "score": null,
-          "weight": 0,
-          "contribution": 0
-        },
-        {
-          "layer": "resonance",
-          "available": true,
-          "score": 67,
-          "weight": 43.7,
-          "contribution": 29.3
-        },
-        {
-          "layer": "institutional",
-          "available": true,
-          "score": 86,
-          "weight": 37.5,
-          "contribution": 32.2
-        },
-        {
-          "layer": "quality",
-          "available": false,
-          "score": null,
-          "weight": 0,
-          "contribution": 0
-        }
-      ]
-    },
-    "resonance": {
-      "passCount": 2,
-      "allPass": false
-    },
-    "rsPercentile": 94
-  },
-  {
-    "sym": "MRSH",
-    "price": 216.66000366210938,
-    "composite": {
-      "score": 60,
+      "score": 58,
       "breakdown": [
         {
           "layer": "market",
@@ -14631,9 +14582,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 91,
+          "score": 86,
           "weight": 37.5,
-          "contribution": 34.1
+          "contribution": 32.2
         },
         {
           "layer": "quality",
@@ -14648,7 +14599,56 @@
       "passCount": 1,
       "allPass": false
     },
-    "rsPercentile": 90
+    "rsPercentile": 94
+  },
+  {
+    "sym": "MRSH",
+    "price": 216.92,
+    "composite": {
+      "score": 58,
+      "breakdown": [
+        {
+          "layer": "market",
+          "available": true,
+          "score": 60,
+          "weight": 18.7,
+          "contribution": 11.2
+        },
+        {
+          "layer": "sector",
+          "available": false,
+          "score": null,
+          "weight": 0,
+          "contribution": 0
+        },
+        {
+          "layer": "resonance",
+          "available": true,
+          "score": 33,
+          "weight": 43.7,
+          "contribution": 14.4
+        },
+        {
+          "layer": "institutional",
+          "available": true,
+          "score": 85,
+          "weight": 37.5,
+          "contribution": 31.9
+        },
+        {
+          "layer": "quality",
+          "available": false,
+          "score": null,
+          "weight": 0,
+          "contribution": 0
+        }
+      ]
+    },
+    "resonance": {
+      "passCount": 1,
+      "allPass": false
+    },
+    "rsPercentile": 91
   },
   {
     "sym": "MLM",
@@ -15534,9 +15534,9 @@
   },
   {
     "sym": "MDLZ",
-    "price": 67.80999755859375,
+    "price": 67.8,
     "composite": {
-      "score": 69,
+      "score": 71,
       "breakdown": [
         {
           "layer": "market",
@@ -15562,9 +15562,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 76,
+          "score": 82,
           "weight": 37.5,
-          "contribution": 28.5
+          "contribution": 30.7
         },
         {
           "layer": "quality",
@@ -15632,7 +15632,7 @@
   },
   {
     "sym": "MNST",
-    "price": 42.59,
+    "price": 42.599998474121094,
     "composite": {
       "score": 23,
       "breakdown": [
@@ -15824,7 +15824,7 @@
       "passCount": 1,
       "allPass": false
     },
-    "rsPercentile": 25
+    "rsPercentile": 26
   },
   {
     "sym": "MSI",
@@ -16024,7 +16024,7 @@
   },
   {
     "sym": "NFLX",
-    "price": 59.4,
+    "price": 59.40999984741211,
     "composite": {
       "score": 13,
       "breakdown": [
@@ -16759,9 +16759,9 @@
   },
   {
     "sym": "NVR",
-    "price": 6016.97021484375,
+    "price": 6026.15,
     "composite": {
-      "score": 17,
+      "score": 19,
       "breakdown": [
         {
           "layer": "market",
@@ -16787,9 +16787,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 15,
+          "score": 21,
           "weight": 37.5,
-          "contribution": 5.6
+          "contribution": 7.9
         },
         {
           "layer": "quality",
@@ -17053,9 +17053,9 @@
   },
   {
     "sym": "OMC",
-    "price": 90.73,
+    "price": 90.69999694824219,
     "composite": {
-      "score": 67,
+      "score": 69,
       "breakdown": [
         {
           "layer": "market",
@@ -17081,9 +17081,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 70,
+          "score": 76,
           "weight": 37.5,
-          "contribution": 26.2
+          "contribution": 28.5
         },
         {
           "layer": "quality",
@@ -17102,9 +17102,9 @@
   },
   {
     "sym": "ON",
-    "price": 62.47999954223633,
+    "price": 62.47,
     "composite": {
-      "score": 31,
+      "score": 34,
       "breakdown": [
         {
           "layer": "market",
@@ -17130,9 +17130,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 15,
+          "score": 22,
           "weight": 37.5,
-          "contribution": 5.6
+          "contribution": 8.2
         },
         {
           "layer": "quality",
@@ -17202,7 +17202,7 @@
     "sym": "ORCL",
     "price": 103.92,
     "composite": {
-      "score": 29,
+      "score": 15,
       "breakdown": [
         {
           "layer": "market",
@@ -17221,9 +17221,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 0,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 0
         },
         {
           "layer": "institutional",
@@ -17242,7 +17242,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 0,
       "allPass": false
     },
     "rsPercentile": 11
@@ -17398,56 +17398,7 @@
     "sym": "PLTR",
     "price": 163.59,
     "composite": {
-      "score": 30,
-      "breakdown": [
-        {
-          "layer": "market",
-          "available": true,
-          "score": 60,
-          "weight": 18.7,
-          "contribution": 11.2
-        },
-        {
-          "layer": "sector",
-          "available": false,
-          "score": null,
-          "weight": 0,
-          "contribution": 0
-        },
-        {
-          "layer": "resonance",
-          "available": true,
-          "score": 0,
-          "weight": 43.7,
-          "contribution": 0
-        },
-        {
-          "layer": "institutional",
-          "available": true,
-          "score": 51,
-          "weight": 37.5,
-          "contribution": 19.1
-        },
-        {
-          "layer": "quality",
-          "available": false,
-          "score": null,
-          "weight": 0,
-          "contribution": 0
-        }
-      ]
-    },
-    "resonance": {
-      "passCount": 0,
-      "allPass": false
-    },
-    "rsPercentile": 29
-  },
-  {
-    "sym": "PANW",
-    "price": 355.97,
-    "composite": {
-      "score": 46,
+      "score": 45,
       "breakdown": [
         {
           "layer": "market",
@@ -17473,6 +17424,55 @@
         {
           "layer": "institutional",
           "available": true,
+          "score": 51,
+          "weight": 37.5,
+          "contribution": 19.1
+        },
+        {
+          "layer": "quality",
+          "available": false,
+          "score": null,
+          "weight": 0,
+          "contribution": 0
+        }
+      ]
+    },
+    "resonance": {
+      "passCount": 1,
+      "allPass": false
+    },
+    "rsPercentile": 29
+  },
+  {
+    "sym": "PANW",
+    "price": 355.97,
+    "composite": {
+      "score": 31,
+      "breakdown": [
+        {
+          "layer": "market",
+          "available": true,
+          "score": 60,
+          "weight": 18.7,
+          "contribution": 11.2
+        },
+        {
+          "layer": "sector",
+          "available": false,
+          "score": null,
+          "weight": 0,
+          "contribution": 0
+        },
+        {
+          "layer": "resonance",
+          "available": true,
+          "score": 0,
+          "weight": 43.7,
+          "contribution": 0
+        },
+        {
+          "layer": "institutional",
+          "available": true,
           "score": 54,
           "weight": 37.5,
           "contribution": 20.2
@@ -17487,7 +17487,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 0,
       "allPass": false
     },
     "rsPercentile": 41
@@ -17641,7 +17641,7 @@
   },
   {
     "sym": "PNR",
-    "price": 72.87999725341797,
+    "price": 72.865,
     "composite": {
       "score": 47,
       "breakdown": [
@@ -17739,7 +17739,7 @@
   },
   {
     "sym": "PFE",
-    "price": 28.45,
+    "price": 28.459999084472656,
     "composite": {
       "score": 60,
       "breakdown": [
@@ -17790,7 +17790,7 @@
     "sym": "PCG",
     "price": 14.22,
     "composite": {
-      "score": 46,
+      "score": 31,
       "breakdown": [
         {
           "layer": "market",
@@ -17809,9 +17809,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 67,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 29.3
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -17830,7 +17830,7 @@
       ]
     },
     "resonance": {
-      "passCount": 2,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 19
@@ -18229,9 +18229,9 @@
   },
   {
     "sym": "PGR",
-    "price": 238.53,
+    "price": 238.6999969482422,
     "composite": {
-      "score": 74,
+      "score": 59,
       "breakdown": [
         {
           "layer": "market",
@@ -18250,9 +18250,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 67,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 29.3
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -18271,7 +18271,7 @@
       ]
     },
     "resonance": {
-      "passCount": 2,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 81
@@ -19064,7 +19064,7 @@
     "sym": "RF",
     "price": 27.755,
     "composite": {
-      "score": 36,
+      "score": 22,
       "breakdown": [
         {
           "layer": "market",
@@ -19083,9 +19083,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 0,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 0
         },
         {
           "layer": "institutional",
@@ -19104,7 +19104,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 0,
       "allPass": false
     },
     "rsPercentile": 38
@@ -19309,7 +19309,7 @@
     "sym": "ROK",
     "price": 384.78,
     "composite": {
-      "score": 31,
+      "score": 16,
       "breakdown": [
         {
           "layer": "market",
@@ -19328,9 +19328,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 0,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 0
         },
         {
           "layer": "institutional",
@@ -19349,7 +19349,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 0,
       "allPass": false
     },
     "rsPercentile": 31
@@ -20336,7 +20336,7 @@
   },
   {
     "sym": "SOLV",
-    "price": 87.16000366210938,
+    "price": 87.11,
     "composite": {
       "score": 50,
       "breakdown": [
@@ -20381,7 +20381,7 @@
       "passCount": 1,
       "allPass": false
     },
-    "rsPercentile": 48
+    "rsPercentile": 47
   },
   {
     "sym": "SO",
@@ -20583,7 +20583,7 @@
     "sym": "STT",
     "price": 162.12,
     "composite": {
-      "score": 25,
+      "score": 40,
       "breakdown": [
         {
           "layer": "market",
@@ -20602,9 +20602,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 0,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 0
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -20623,14 +20623,14 @@
       ]
     },
     "resonance": {
-      "passCount": 0,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 23
   },
   {
     "sym": "STLD",
-    "price": 216.86000061035156,
+    "price": 216.84,
     "composite": {
       "score": 39,
       "breakdown": [
@@ -20675,7 +20675,7 @@
       "passCount": 1,
       "allPass": false
     },
-    "rsPercentile": 39
+    "rsPercentile": 40
   },
   {
     "sym": "STE",
@@ -20877,7 +20877,7 @@
     "sym": "SNPS",
     "price": 405.155,
     "composite": {
-      "score": 20,
+      "score": 34,
       "breakdown": [
         {
           "layer": "market",
@@ -20896,9 +20896,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 0,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 0
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -20917,7 +20917,7 @@
       ]
     },
     "resonance": {
-      "passCount": 0,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 28
@@ -21267,9 +21267,9 @@
   },
   {
     "sym": "TEL",
-    "price": 211.47999572753906,
+    "price": 211.46,
     "composite": {
-      "score": 39,
+      "score": 41,
       "breakdown": [
         {
           "layer": "market",
@@ -21295,9 +21295,9 @@
         {
           "layer": "institutional",
           "available": true,
-          "score": 36,
+          "score": 42,
           "weight": 37.5,
-          "contribution": 13.5
+          "contribution": 15.7
         },
         {
           "layer": "quality",
@@ -21463,58 +21463,9 @@
   },
   {
     "sym": "TXN",
-    "price": 270.08,
+    "price": 270.19000244140625,
     "composite": {
-      "score": 44,
-      "breakdown": [
-        {
-          "layer": "market",
-          "available": true,
-          "score": 60,
-          "weight": 18.7,
-          "contribution": 11.2
-        },
-        {
-          "layer": "sector",
-          "available": false,
-          "score": null,
-          "weight": 0,
-          "contribution": 0
-        },
-        {
-          "layer": "resonance",
-          "available": true,
-          "score": 33,
-          "weight": 43.7,
-          "contribution": 14.4
-        },
-        {
-          "layer": "institutional",
-          "available": true,
-          "score": 50,
-          "weight": 37.5,
-          "contribution": 18.7
-        },
-        {
-          "layer": "quality",
-          "available": false,
-          "score": null,
-          "weight": 0,
-          "contribution": 0
-        }
-      ]
-    },
-    "resonance": {
-      "passCount": 1,
-      "allPass": false
-    },
-    "rsPercentile": 61
-  },
-  {
-    "sym": "TPL",
-    "price": 261.28,
-    "composite": {
-      "score": 15,
+      "score": 28,
       "breakdown": [
         {
           "layer": "market",
@@ -21540,6 +21491,55 @@
         {
           "layer": "institutional",
           "available": true,
+          "score": 44,
+          "weight": 37.5,
+          "contribution": 16.5
+        },
+        {
+          "layer": "quality",
+          "available": false,
+          "score": null,
+          "weight": 0,
+          "contribution": 0
+        }
+      ]
+    },
+    "resonance": {
+      "passCount": 0,
+      "allPass": false
+    },
+    "rsPercentile": 61
+  },
+  {
+    "sym": "TPL",
+    "price": 261.28,
+    "composite": {
+      "score": 29,
+      "breakdown": [
+        {
+          "layer": "market",
+          "available": true,
+          "score": 60,
+          "weight": 18.7,
+          "contribution": 11.2
+        },
+        {
+          "layer": "sector",
+          "available": false,
+          "score": null,
+          "weight": 0,
+          "contribution": 0
+        },
+        {
+          "layer": "resonance",
+          "available": true,
+          "score": 33,
+          "weight": 43.7,
+          "contribution": 14.4
+        },
+        {
+          "layer": "institutional",
+          "available": true,
           "score": 9,
           "weight": 37.5,
           "contribution": 3.4
@@ -21554,7 +21554,7 @@
       ]
     },
     "resonance": {
-      "passCount": 0,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 12
@@ -21659,7 +21659,7 @@
   },
   {
     "sym": "TJX",
-    "price": 146.07,
+    "price": 146.08999633789062,
     "composite": {
       "score": 54,
       "breakdown": [
@@ -21855,7 +21855,7 @@
   },
   {
     "sym": "TDG",
-    "price": 1150.72998046875,
+    "price": 1150.84,
     "composite": {
       "score": 37,
       "breakdown": [
@@ -21904,7 +21904,7 @@
   },
   {
     "sym": "TRV",
-    "price": 406.8599853515625,
+    "price": 406.88,
     "composite": {
       "score": 57,
       "breakdown": [
@@ -22051,7 +22051,7 @@
   },
   {
     "sym": "TWLO",
-    "price": 180.7899932861328,
+    "price": 180.695,
     "composite": {
       "score": 39,
       "breakdown": [
@@ -22249,7 +22249,7 @@
     "sym": "UBER",
     "price": 66.35,
     "composite": {
-      "score": 14,
+      "score": 28,
       "breakdown": [
         {
           "layer": "market",
@@ -22268,9 +22268,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 0,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 0
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -22289,7 +22289,7 @@
       ]
     },
     "resonance": {
-      "passCount": 0,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 27
@@ -22445,7 +22445,7 @@
     "sym": "UAL",
     "price": 104.53,
     "composite": {
-      "score": 37,
+      "score": 22,
       "breakdown": [
         {
           "layer": "market",
@@ -22464,9 +22464,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 33,
+          "score": 0,
           "weight": 43.7,
-          "contribution": 14.4
+          "contribution": 0
         },
         {
           "layer": "institutional",
@@ -22485,7 +22485,7 @@
       ]
     },
     "resonance": {
-      "passCount": 1,
+      "passCount": 0,
       "allPass": false
     },
     "rsPercentile": 41
@@ -22592,7 +22592,7 @@
     "sym": "UNH",
     "price": 346.02,
     "composite": {
-      "score": 23,
+      "score": 38,
       "breakdown": [
         {
           "layer": "market",
@@ -22611,9 +22611,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 0,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 0
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -22632,7 +22632,7 @@
       ]
     },
     "resonance": {
-      "passCount": 0,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 28
@@ -22688,7 +22688,7 @@
   },
   {
     "sym": "VLO",
-    "price": 322.95,
+    "price": 323,
     "composite": {
       "score": 41,
       "breakdown": [
@@ -22837,7 +22837,7 @@
     "sym": "VLTO",
     "price": 120.175,
     "composite": {
-      "score": 73,
+      "score": 58,
       "breakdown": [
         {
           "layer": "market",
@@ -22856,9 +22856,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 67,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 29.3
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -22877,7 +22877,7 @@
       ]
     },
     "resonance": {
-      "passCount": 2,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 97
@@ -23129,7 +23129,7 @@
   },
   {
     "sym": "VTRS",
-    "price": 19.81,
+    "price": 19.829999923706055,
     "composite": {
       "score": 71,
       "breakdown": [
@@ -23227,7 +23227,7 @@
   },
   {
     "sym": "V",
-    "price": 424.3900146484375,
+    "price": 424.515,
     "composite": {
       "score": 57,
       "breakdown": [
@@ -23472,7 +23472,7 @@
   },
   {
     "sym": "GWW",
-    "price": 1416.075,
+    "price": 1415.9000244140625,
     "composite": {
       "score": 52,
       "breakdown": [
@@ -23570,7 +23570,7 @@
   },
   {
     "sym": "WMT",
-    "price": 131.91,
+    "price": 131.94000244140625,
     "composite": {
       "score": 81,
       "breakdown": [
@@ -23766,7 +23766,7 @@
   },
   {
     "sym": "WEC",
-    "price": 119.08999633789062,
+    "price": 119.13,
     "composite": {
       "score": 49,
       "breakdown": [
@@ -24011,7 +24011,7 @@
   },
   {
     "sym": "WY",
-    "price": 20.520000457763672,
+    "price": 20.51,
     "composite": {
       "score": 17,
       "breakdown": [
@@ -24060,7 +24060,7 @@
   },
   {
     "sym": "WSM",
-    "price": 212.28,
+    "price": 212.38999938964844,
     "composite": {
       "score": 25,
       "breakdown": [
@@ -24356,7 +24356,7 @@
     "sym": "XYL",
     "price": 96.425,
     "composite": {
-      "score": 13,
+      "score": 28,
       "breakdown": [
         {
           "layer": "market",
@@ -24375,9 +24375,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 0,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 0
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -24396,7 +24396,7 @@
       ]
     },
     "resonance": {
-      "passCount": 0,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 25
@@ -24405,7 +24405,7 @@
     "sym": "YUM",
     "price": 167.1,
     "composite": {
-      "score": 66,
+      "score": 80,
       "breakdown": [
         {
           "layer": "market",
@@ -24424,9 +24424,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 67,
+          "score": 100,
           "weight": 43.7,
-          "contribution": 29.3
+          "contribution": 43.7
         },
         {
           "layer": "institutional",
@@ -24445,8 +24445,8 @@
       ]
     },
     "resonance": {
-      "passCount": 2,
-      "allPass": false
+      "passCount": 3,
+      "allPass": true
     },
     "rsPercentile": 84
   },
@@ -24942,7 +24942,7 @@
   },
   {
     "sym": "TEAM",
-    "price": 144.38999938964844,
+    "price": 144.5,
     "composite": {
       "score": 43,
       "breakdown": [
@@ -25040,9 +25040,9 @@
   },
   {
     "sym": "MDB",
-    "price": 313.5299987792969,
+    "price": 313.61,
     "composite": {
-      "score": 23,
+      "score": 38,
       "breakdown": [
         {
           "layer": "market",
@@ -25061,9 +25061,9 @@
         {
           "layer": "resonance",
           "available": true,
-          "score": 0,
+          "score": 33,
           "weight": 43.7,
-          "contribution": 0
+          "contribution": 14.4
         },
         {
           "layer": "institutional",
@@ -25082,7 +25082,7 @@
       ]
     },
     "resonance": {
-      "passCount": 0,
+      "passCount": 1,
       "allPass": false
     },
     "rsPercentile": 13
