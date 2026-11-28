@@ -1,5 +1,34 @@
 [
   {
+    "date": "2026-11-28",
+    "strategy": "三频共振 + 机构多因子分层组合",
+    "dataSource": "Alpaca",
+    "pool": "core",
+    "total": 519,
+    "triggered": 19,
+    "tickers": [
+      "A",
+      "AZO",
+      "BIIB",
+      "DXCM",
+      "DG",
+      "DHI",
+      "ES",
+      "GILD",
+      "HSY",
+      "JKHY",
+      "LYV",
+      "ORLY",
+      "PHM",
+      "RL",
+      "TSCO",
+      "VRSN",
+      "VMRK",
+      "WRB",
+      "YUM"
+    ]
+  },
+  {
     "date": "2026-11-27",
     "strategy": "三频共振 + 机构多因子分层组合",
     "dataSource": "Alpaca",
